@@ -6,7 +6,16 @@ import LandingPage from "@/components/LandingPage";
 import { fetchGitHubData } from "@/lib/github";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  let session;
+  
+  try {
+    session = await getServerSession(authOptions);
+  } catch (error) {
+    console.error("Failed to retrieve session:", error);
+    // If session retrieval fails, we can treat it as not logged in, 
+    // or show a specific error if it's a configuration issue.
+    // For now, let's assume it might be a temporary issue or missing env vars.
+  }
   
   // @ts-ignore - accessToken is added in the route handler
   const accessToken = session?.accessToken as string;
