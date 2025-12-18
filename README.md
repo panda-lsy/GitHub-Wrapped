@@ -43,7 +43,7 @@ Want to host your own version? You can deploy this project to Vercel in minutes 
 3. **Deploy to Vercel**:
    - Click the button below to start deployment:
    
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-username%2Fgithub-wrapped-app)
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FFreakz3z%2FGitHub-Wrapped)
 
    - Vercel will ask for Environment Variables. Enter the ones you got from GitHub:
      - `GITHUB_ID`: Your Client ID.
@@ -59,7 +59,7 @@ Want to host your own version? You can deploy this project to Vercel in minutes 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/github-wrapped-app.git
+   git clone https://github.com/Freakz3z/GitHub-Wrapped.git
    cd github-wrapped-app
    ```
 

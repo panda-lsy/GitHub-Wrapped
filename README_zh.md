@@ -43,7 +43,7 @@
 3. **部署到 Vercel**：
    - 点击下方按钮开始部署：
    
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-username%2Fgithub-wrapped-app)
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FFreakz3z%2FGitHub-Wrapped)
 
    - Vercel 会要求你输入环境变量。填入你从 GitHub 获得的信息：
      - `GITHUB_ID`: 你的 Client ID。
@@ -59,7 +59,7 @@
 
 1. **克隆仓库**：
    ```bash
-   git clone https://github.com/your-username/github-wrapped-app.git
+   git clone https://github.com/Freakz3z/GitHub-Wrapped.git
    cd github-wrapped-app
    ```
 

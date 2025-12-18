@@ -34,7 +34,7 @@ export default function ContributionHeatmap({ data, labels, blockSize = 12, bloc
           blockMargin={blockMargin}
           fontSize={12}
           showWeekdayLabels
-          hideLegend
+          showColorLegend={false}
         />
       </div>
       
