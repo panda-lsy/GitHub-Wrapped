@@ -34,12 +34,7 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
         />
         <div>
           <h1 
-            className="text-5xl font-bold mb-2"
-            style={{ 
-              background: "linear-gradient(to right, #ffffff, #9ca3af)", 
-              WebkitBackgroundClip: "text", 
-              WebkitTextFillColor: "transparent" 
-            }}
+            className="text-5xl font-bold mb-2 text-white"
           >
             {data.user.name || data.user.login}
           </h1>
@@ -101,8 +96,9 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
                more: t.dashboard.charts.more,
                totalCount: t.dashboard.charts.totalCount,
              }}
-             blockSize={14}
-             blockMargin={5}
+             blockSize={18}
+             blockMargin={6}
+             fontSize={20}
            />
         </div>
       </div>
@@ -117,7 +113,7 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
             </div>
           ))}
         </div>
-        <p className="text-lg text-[#6b7280]">github-wrapped.vercel.app</p>
+        <p className="text-2xl font-bold text-[#9ca3af]">GitHub-Wrapped</p>
       </div>
     </div>
   );

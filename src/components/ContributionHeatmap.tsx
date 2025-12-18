@@ -12,9 +12,10 @@ interface Props {
   };
   blockSize?: number;
   blockMargin?: number;
+  fontSize?: number;
 }
 
-export default function ContributionHeatmap({ data, labels, blockSize = 12, blockMargin = 4 }: Props) {
+export default function ContributionHeatmap({ data, labels, blockSize = 12, blockMargin = 4, fontSize = 12 }: Props) {
   // Theme configuration for the heatmap
   const theme = {
     light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
@@ -33,20 +34,24 @@ export default function ContributionHeatmap({ data, labels, blockSize = 12, bloc
           colorScheme="dark"
           blockSize={blockSize}
           blockMargin={blockMargin}
-          fontSize={12}
+          fontSize={fontSize}
           showWeekdayLabels
           showColorLegend={false}
         />
       </div>
       
-      <div className="w-full flex justify-end items-center gap-2 mt-2 text-xs text-[#9ca3af]">
+      <div className="w-full flex justify-end items-center gap-2 mt-2 text-[#9ca3af]" style={{ fontSize: fontSize }}>
         <span>{labels?.less || "Less"}</span>
         <div className="flex gap-1">
           {theme.dark.map((color, i) => (
             <div
               key={i}
-              className="w-[10px] h-[10px] rounded-[2px]"
-              style={{ backgroundColor: color }}
+              className="rounded-[2px]"
+              style={{ 
+                backgroundColor: color,
+                width: blockSize * 0.8,
+                height: blockSize * 0.8
+              }}
             />
           ))}
         </div>
