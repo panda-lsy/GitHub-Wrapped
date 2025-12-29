@@ -200,22 +200,6 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
         </AnimatePresence>
       </div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={nextSlide}
-        className="absolute left-1/2 bottom-32 md:bottom-24 -translate-x-1/2 z-20 p-3 md:p-4 bg-gray-800/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-700/80 transition-all disabled:opacity-30"
-        disabled={currentSlide === slides.length - 1}
-      >
-        <ChevronDown className="w-5 h-5 md:w-6 md:h-6" />
-      </button>
-      <button
-        onClick={prevSlide}
-        className="absolute left-1/2 top-32 md:top-24 -translate-x-1/2 z-20 p-3 md:p-4 bg-gray-800/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-700/80 transition-all disabled:opacity-30"
-        disabled={currentSlide === 0}
-      >
-        <ChevronUp className="w-5 h-5 md:w-6 md:h-6" />
-      </button>
-
       {/* Progress Indicator */}
       <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 md:gap-3 px-4">
         {slides.map((_, index) => (

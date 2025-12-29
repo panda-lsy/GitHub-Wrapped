@@ -30,7 +30,7 @@ export default function MilestonesSlide({ data }: Props) {
         </motion.p>
 
         {data.milestones.length > 0 ? (
-          <div className="space-y-4 md:space-y-6 flex-1 overflow-y-auto pb-20 custom-scrollbar" data-scrollable="true">
+          <div className="space-y-3 md:space-y-4 flex-1 overflow-y-auto pb-20 custom-scrollbar max-w-4xl mx-auto w-full" data-scrollable="true">
             {data.milestones.map((milestone, index) => (
               <motion.div
                 key={milestone.id}
@@ -38,21 +38,21 @@ export default function MilestonesSlide({ data }: Props) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 + index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
-                className="p-4 md:p-6 bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl md:rounded-2xl border-2 border-amber-500/30 hover:border-amber-500/50 transition-all"
+                className="p-3 md:p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-sm rounded-lg md:rounded-xl border-2 border-amber-500/30 hover:border-amber-500/50 transition-all"
               >
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+                <div className="flex items-center gap-3 md:gap-4">
                   <div className="flex-shrink-0">
-                    <div className="w-14 h-14 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
-                      <span className="text-2xl md:text-4xl">{milestone.icon}</span>
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-lg md:rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                      <span className="text-xl md:text-2xl">{milestone.icon}</span>
                     </div>
                   </div>
                   <div className="flex-grow">
-                    <h3 className="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">{milestone.title}</h3>
-                    <p className="text-xs md:text-base text-gray-300 line-clamp-2 md:line-clamp-none">{milestone.description}</p>
+                    <h3 className="text-base md:text-xl font-bold text-white mb-1">{milestone.title}</h3>
+                    <p className="text-xs md:text-sm text-gray-300 line-clamp-2">{milestone.description}</p>
                   </div>
-                  <div className="flex-shrink-0 text-right md:order-last order-2">
+                  <div className="flex-shrink-0">
                     <div className="flex items-center gap-2 text-amber-400">
-                      <Calendar className="w-4 h-4 md:w-5 md:h-5" />
+                      <Calendar className="w-3 h-3 md:w-4 md:h-4" />
                       <span className="text-xs md:text-sm font-semibold">{data.year}</span>
                     </div>
                   </div>
