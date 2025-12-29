@@ -1,53 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import WrappedSlideShow from "@/components/WrappedSlideShow";
 import { WrappedData } from "@/types";
 import { fetchGitHubData } from "@/lib/github";
 
 export default function Home() {
+  const { data: session } = useSession();
   const [data, setData] = useState<WrappedData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadData = async () => {
+  const loadData = async (accessToken?: string) => {
     try {
       setError(null);
       setIsLoading(true);
+
+      const token = accessToken || (session as any)?.accessToken;
       
-      const response = await fetch("/api/session");
-      if (!response.ok) {
-        setError("Authentication failed. Please sign in.");
-        setIsLoading(false);
-        return;
-      }
-      
-      const session = await response.json();
-      
+      console.log("Loading data with token:", token ? "Token found" : "No token");
       console.log("Session:", session);
-      
-      if (!session) {
-        setError("No session found. Please sign in.");
+
+      if (!token) {
+        setError("No access token. Please sign in with GitHub.");
         setIsLoading(false);
         return;
       }
 
-      // Check if we're on client side and have a token
-      if (typeof window !== 'undefined' && !session.accessToken) {
-        setError("No access token. Please sign in again.");
-        setIsLoading(false);
-        return;
-      }
-
-      if (!session.accessToken) {
-        setError("No access token found. Please sign in.");
-        setIsLoading(false);
-        return;
-      }
-
-      const githubData = await fetchGitHubData(session.accessToken);
+      const githubData = await fetchGitHubData(token);
       setData(githubData);
       setIsLoading(false);
     } catch (err) {
@@ -58,8 +40,19 @@ export default function Home() {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (session) {
+      // @ts-ignore
+      const accessToken = (session as any).accessToken;
+      if (accessToken) {
+        loadData(accessToken);
+      } else {
+        setError("No access token in session. Please sign in again.");
+        setIsLoading(false);
+      }
+    } else {
+      setIsLoading(false);
+    }
+  }, [session]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
