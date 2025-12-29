@@ -99,7 +99,6 @@ export default function HeatmapSlide({ data }: Props) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.05 }}
-                  whileHover={{ scale: 1.05, y: -3 }}
                   className={`group p-4 md:p-5 rounded-xl md:rounded-2xl border transition-all ${
                     month.totalContributions > 0
                       ? 'bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/30 hover:border-green-500/50 shadow-lg hover:shadow-green-500/20'
@@ -163,7 +162,6 @@ export default function HeatmapSlide({ data }: Props) {
           className="mt-4 md:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4"
         >
           <motion.div
-            whileHover={{ scale: 1.05, y: -2 }}
             className="group p-4 md:p-5 bg-gradient-to-br from-green-500/15 to-emerald-500/10 rounded-xl md:rounded-2xl border border-green-500/30 hover:border-green-500/50 transition-all shadow-lg hover:shadow-green-500/20"
           >
             <div className="flex items-center gap-2 mb-2">
@@ -177,7 +175,6 @@ export default function HeatmapSlide({ data }: Props) {
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05, y: -2 }}
             className="group p-4 md:p-5 bg-gradient-to-br from-orange-500/15 to-red-500/10 rounded-xl md:rounded-2xl border border-orange-500/30 hover:border-orange-500/50 transition-all shadow-lg hover:shadow-orange-500/20"
           >
             <div className="flex items-center gap-2 mb-2">
@@ -191,7 +188,6 @@ export default function HeatmapSlide({ data }: Props) {
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05, y: -2 }}
             className="group p-4 md:p-5 bg-gradient-to-br from-blue-500/15 to-purple-500/10 rounded-xl md:rounded-2xl border border-blue-500/30 hover:border-blue-500/50 transition-all shadow-lg hover:shadow-blue-500/20"
           >
             <div className="flex items-center gap-2 mb-2">

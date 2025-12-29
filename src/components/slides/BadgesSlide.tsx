@@ -54,7 +54,6 @@ export default function BadgesSlide({ data }: Props) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + index * 0.05 }}
-                whileHover={{ scale: 1.05, y: -5, rotate: 2 }}
                 className="p-4 md:p-5 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl md:rounded-2xl border-2 border-yellow-500/50 cursor-pointer shadow-lg hover:shadow-yellow-500/20 transition-all"
               >
                 <div className="text-3xl md:text-4xl mb-2 text-center">{badge.icon}</div>

@@ -31,7 +31,6 @@ export default function ReposSlide({ data }: Props) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.03, y: -3 }}
               className="group p-3 md:p-4 bg-gradient-to-br from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-lg md:rounded-xl border border-gray-700/50 hover:border-yellow-500/50 transition-all"
             >
               <div className="flex justify-between items-start mb-2">

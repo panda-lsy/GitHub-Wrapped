@@ -40,7 +40,6 @@ export default function LanguagesSlide({ data }: Props) {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            whileHover={{ scale: 1.02 }}
             className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 border border-blue-500/30 hover:border-blue-500/50 transition-all shadow-lg"
           >
             <div className="flex items-center gap-3 mb-4 md:mb-6">
@@ -62,7 +61,6 @@ export default function LanguagesSlide({ data }: Props) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
-                whileHover={{ scale: 1.02, x: 5 }}
                 className="p-4 md:p-5 bg-gradient-to-r from-gray-800/60 to-gray-700/40 rounded-xl border border-gray-600/30 hover:border-blue-500/50 transition-all shadow-md hover:shadow-blue-500/10"
               >
                 <div className="flex justify-between items-center mb-2 md:mb-3">

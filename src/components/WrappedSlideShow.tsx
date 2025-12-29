@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { WrappedData } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronUp, ChevronDown, RotateCcw, Share2, Download } from "lucide-react";
+import { RotateCcw, Share2, Download } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   IntroSlide,
@@ -27,6 +27,7 @@ interface Props {
 export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShare, onDownload }: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [showProgress, setShowProgress] = useState(false);
   const { t } = useLanguage();
 
   const slides = [
@@ -43,16 +44,22 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
   const nextSlide = () => {
     setDirection(1);
     setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setShowProgress(true);
+    setTimeout(() => setShowProgress(false), 2000);
   };
 
   const prevSlide = () => {
     setDirection(-1);
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setShowProgress(true);
+    setTimeout(() => setShowProgress(false), 2000);
   };
 
   const goToSlide = (index: number) => {
     setDirection(index > currentSlide ? 1 : -1);
     setCurrentSlide(index);
+    setShowProgress(true);
+    setTimeout(() => setShowProgress(false), 2000);
   };
 
   // Keyboard navigation
@@ -149,7 +156,7 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
               className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-gray-800/80 backdrop-blur-sm text-white text-sm md:text-base rounded-lg hover:bg-gray-700/80 transition-all disabled:opacity-50"
             >
               <RotateCcw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
-              <span className="hidden sm:inline">{isRefreshing ? t.dashboard.generating : t.dashboard.refresh || "Refresh"}</span>
+              <span className="hidden sm:inline">{isRefreshing ? "Generating..." : "Refresh"}</span>
             </button>
           </div>
           <div className="flex flex-wrap gap-2 md:gap-3 w-full md:w-auto justify-end">
@@ -201,7 +208,12 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
       </div>
 
       {/* Progress Indicator */}
-      <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 md:gap-3 px-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showProgress ? 1 : 0 }}
+        transition={{ opacity: { duration: 0.3 } }}
+        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 md:gap-3 px-4"
+      >
         {slides.map((_, index) => (
           <button
             key={index}
@@ -213,12 +225,17 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
             }`}
           />
         ))}
-      </div>
+      </motion.div>
 
       {/* Slide Counter */}
-      <div className="absolute bottom-6 md:bottom-8 right-4 md:right-8 z-20 text-gray-400 text-xs md:text-sm">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showProgress ? 1 : 0 }}
+        transition={{ opacity: { duration: 0.3 } }}
+        className="absolute bottom-6 md:bottom-8 right-4 md:right-8 z-20 text-gray-400 text-xs md:text-sm"
+      >
         {currentSlide + 1} / {slides.length}
-      </div>
+      </motion.div>
     </div>
   );
 }

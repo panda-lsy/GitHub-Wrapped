@@ -85,7 +85,6 @@ export default function SummarySlide({ data }: Props) {
             href="https://github.com/Freakz3z/GitHub-Wrapped"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="inline-flex items-center justify-center gap-2 md:gap-3 px-6 py-3 md:px-8 md:py-4 w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm md:text-base rounded-full font-semibold hover:from-purple-500 hover:to-pink-500 transition-all"
           >

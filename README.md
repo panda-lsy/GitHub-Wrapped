@@ -1,8 +1,8 @@
 # GitHub Wrapped 🎁
 
-**Your Year in Code, Visualized.**
+**Your Year in Code, Beautifully Visualized.**
 
-GitHub Wrapped is a personalized year-in-review for developers. It analyzes your GitHub activity over the past year and generates a beautiful, shareable summary of your coding journey with an immersive slide-based experience.
+GitHub Wrapped is a personalized year-in-review for developers. It analyzes your GitHub activity over the past year and generates a stunning, shareable summary of your coding journey with an immersive slide-based experience.
 
 [中文](README_zh.md) | [**🚀 Launch App**](https://githubwrapped-roan.vercel.app)
 
@@ -11,12 +11,16 @@ GitHub Wrapped is a personalized year-in-review for developers. It analyzes your
 ## ✨ Features
 
 ### 🎨 Immersive Experience
-- **Interactive Slide Show**: Navigate through your year with smooth animations and transitions
-- **Keyboard Support**: Use arrow keys to navigate between slides
-- **Progress Indicator**: Track your journey through the slides
+- **Smooth Slide Transitions**: Navigate through your year with beautiful animations using Framer Motion
+- **Wheel Navigation**: Use your mouse wheel to seamlessly move between slides
+- **Progress Indicator**: Track your journey with an elegant progress bar
+- **Responsive Design**: Perfect experience on desktop, tablet, and mobile devices
+- **Modern UI**: Glass-morphism design with gradient backgrounds and custom scrollbars
 
 ### 📊 Comprehensive Analytics
-- **Total Contributions**: Commits, pull requests, issues, and reviews combined
+
+#### Statistics Overview
+- **Total Contributions**: All your commits, pull requests, issues, and reviews combined
 - **Stars Earned**: Total stars across all your repositories
 - **Pull Requests**: Track your PR contributions
 - **Issues Opened**: See your impact through issue reports
@@ -25,71 +29,108 @@ GitHub Wrapped is a personalized year-in-review for developers. It analyzes your
 - **Current Streak**: Your active contribution streak
 - **Best Day**: Your most productive day with contribution count
 
-### 🗓️ Contribution Heatmap
-- Visualize your daily coding intensity with a stunning heatmap
-- See streaks and patterns in your contribution history
-- Interactive calendar view with contribution levels
+### 🗓️ Monthly Journey
+- **Monthly Activity Cards**: View your contributions organized by month
+- **Activity Indicators**: Green pulsing dots for active months
+- **Month Statistics**: 
+  - Total contributions per month
+  - Number of active days
+  - Best streak within the month
+  - Best single-day contributions
+- **Inactive Months**: Gray cards for months with no activity
+- **Yearly Streak Summary**: Longest streak, current streak, and best day
 
 ### 🏆 Achievement Badges
-- **Contribution Badges**: Unlock badges based on total contributions (100, 500, 1K, 2.5K)
-- **Streak Badges**: Earn badges for maintaining streaks (7, 30, 100 days)
-- **Star Badges**: Collect badges for stars earned (10, 50, 100, 500)
-- **PR Badges**: Recognition for pull requests (10, 50, 100)
-- **Special Badges**: Polyglot (5+ languages), Code Reviewer (100+ reviews)
-- **Progress Tracking**: See your progress towards locked badges
+Unlock achievements and track your progress:
+
+#### Contribution Badges
+- 🥉 100 Contributions
+- 🥈 500 Contributions  
+- 🥇 1K Contributions
+- 💎 2.5K Contributions
+
+#### Streak Badges
+- 🔥 7-Day Streak
+- 🚀 30-Day Streak
+- ⭐ 100-Day Streak
+
+#### Star Badges
+- ⭐ 10 Stars
+- 🌟 50 Stars
+- 💫 100 Stars
+- 🏆 500 Stars
+
+#### PR Badges
+- 📝 10 Pull Requests
+- 📋 50 Pull Requests
+- ✅ 100 Pull Requests
+
+#### Special Badges
+- 🌍 Polyglot (5+ languages)
+- 👀 Code Reviewer (100+ reviews)
+
+#### Progress Tracking
+- See your progress towards locked badges
+- Track percentage completion
+- Visual progress bars
 
 ### 🎯 Key Milestones
-- **1K Contributions**: Celebrate reaching 1,000 contributions
-- **2.5K Contributions**: Elite contributor achievement
-- **100 Stars**: Recognition for repository popularity
-- **30-Day Streak**: Commitment to consistent coding
-- **10 Repositories**: Active repository creator
+Celebrate your major achievements:
+- 🎉 1K Contributions
+- 🏆 2.5K Contributions
+- ⭐ 100 Stars
+- 🔥 30-Day Streak
+- 📦 10 Repositories
 
-### 🌍 Top Languages
-- Visual distribution of your programming languages
-- Percentage breakdown by language
+### 🌍 Programming Languages
+- Visual distribution of your top languages
+- Percentage breakdown with animated progress bars
 - Color-coded language indicators
 - Track your language diversity
 
 ### 📦 Top Repositories
-- Your most starred repositories
-- Repository descriptions
-- Primary language for each repo
-- Star counts and fork information
-- Open issues tracking
+Your most starred and active repositories:
+- Repository names and descriptions
+- Primary language with color indicators
+- Star counts, forks, and open issues
+- Direct links to GitHub
+- Compact, elegant card layout
 
 ### 🔄 Quick Actions
-- **Refresh Data**: Update your wrapped with the latest GitHub activity
+- **Refresh Data**: Update your wrapped with latest GitHub activity
 - **Social Sharing**: Share directly to Twitter/X and LinkedIn
 - **Download**: Save your wrapped as an image (coming soon)
-- **Multi-language Support**: Switch between English and Chinese
+- **Keyboard Support**: Use arrow keys for navigation
 
-### 🔒 Privacy First
+### 🔒 Privacy & Security
 - **Read-Only Access**: Only requests permission to read public data
 - **No Data Storage**: Your data is never stored on our servers
 - **Secure Authentication**: Uses GitHub OAuth with NextAuth
+- **Session Management**: Secure session handling with NextAuth
 
 ## 🚀 How to Use
 
-1. **Connect**: Visit the [app](https://githubwrapped-delta.vercel.app) and sign in with your GitHub account
+1. **Connect**: Visit the [app](https://githubwrapped-roan.vercel.app) and sign in with your GitHub account
 2. **Explore**: Navigate through interactive slides to discover your stats
-   - Use left/right arrow keys or click navigation buttons
-   - View your intro, stats, heatmap, languages, repos, badges, and milestones
-3. **Share**: Share your achievements on social platforms
+   - Scroll with your mouse wheel to move between slides
+   - Use arrow keys for keyboard navigation
+   - Click on progress indicators to jump to specific slides
+3. **Discover**: View your intro, stats, monthly journey, languages, repos, badges, and milestones
+4. **Share**: Share your achievements on social platforms
    - Click Twitter or LinkedIn buttons for direct sharing
    - Use `#GitHubWrapped` to join the community
-4. **Refresh**: Click the refresh button to update your data with recent activity
+5. **Refresh**: Click the refresh button to update your data with recent activity
 
 ## 🎯 Slides Overview
 
-1. **Intro Slide**: Personal welcome with user profile and bio
-2. **Stats Slide**: Key metrics and impact numbers
-3. **Heatmap Slide**: Visual contribution calendar with streaks
-4. **Languages Slide**: Programming language distribution
-5. **Repos Slide**: Top repositories with details
-6. **Badges Slide**: Achievement badges (unlocked & locked)
-7. **Milestones Slide**: Key achievements and milestones
-8. **Summary Slide**: Thank you and call to action
+1. **Intro Slide**: Personalized welcome with your GitHub profile, bio, and social stats
+2. **Stats Slide**: 6 animated cards displaying your key metrics
+3. **Heatmap Slide**: Monthly activity cards with detailed statistics and streak information
+4. **Languages Slide**: Interactive language distribution with progress bars and charts
+5. **Repos Slide**: Your top repositories in a compact, responsive grid layout
+6. **Badges Slide**: Achievement badges with unlocked and progress states
+7. **Milestones Slide**: Key achievements with icons and descriptions
+8. **Summary Slide**: Thank you message with call-to-action
 
 ## 🛠️ For Developers: Deploy Your Own
 
@@ -112,29 +153,36 @@ Want to host your own version or contribute?
    npm install
    ```
 
-3. **Configure Environment**:
+3. **Configure environment variables**:
    Create a `.env.local` file with the following:
    ```env
    GITHUB_ID=your_github_client_id
    GITHUB_SECRET=your_github_client_secret
-   NEXTAUTH_SECRET=your_random_secret
+   NEXTAUTH_SECRET=your_random_secret_string
    NEXTAUTH_URL=http://localhost:3000
    ```
 
-4. **Run the app**:
+4. **Run the development server**:
    ```bash
    npm run dev
    ```
 
+5. **Open your browser**:
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
 ### Tech Stack
 
-- **Framework**: Next.js 16 with App Router
-- **UI**: React 19, Tailwind CSS 4
-- **Authentication**: NextAuth with GitHub OAuth
-- **Data**: GitHub GraphQL API
-- **Animations**: Framer Motion
-- **Charts**: Recharts, react-activity-calendar
+- **Framework**: Next.js 16 with App Router and Turbopack
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Authentication**: NextAuth.js with GitHub OAuth
+- **Data Fetching**: GitHub GraphQL API
+- **Animations**: Framer Motion for smooth transitions
+- **Charts & Visualizations**: 
+  - Recharts for language distribution
+  - react-activity-calendar for contribution data
 - **Icons**: Lucide React
+- **Type Safety**: TypeScript
 
 ## 🤝 Contributing
 
@@ -144,73 +192,52 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 - Add new badge types and achievements
 - Create additional slide templates
-- Improve UI/UX animations
+- Improve UI/UX animations and transitions
 - Add more social sharing platforms
 - Implement image download feature
 - Add more language support
 - Enhance data visualization
+- Optimize performance and loading times
+- Improve mobile responsiveness
 
 ## 📄 License
 
-This project is open source and available under the Apache License 2.0.
+This project is open source and available under the [Apache License 2.0](LICENSE).
 
-## 📝 Changelog
+## 📝 Recent Updates
 
-### Version 2.0.0 - Major Update
+### Latest Release
 
-#### 🎨 UI/UX Improvements
-- Completely redesigned interface with immersive slide-based experience
-- Added smooth animations and transitions using Framer Motion
-- Implemented modern glass-morphism design with gradient backgrounds
-- Enhanced responsive layout for all screen sizes
+#### 🎨 UI/UX Enhancements
+- Removed navigation buttons for cleaner interface (wheel-only navigation)
+- Reduced card sizes for better space utilization
+- Improved content centering on all slides
+- Enhanced mobile responsiveness with optimized layouts
 
-#### 📑 New Slide System
-- **Intro Slide**: Personalized welcome with user profile and bio
-- **Stats Slide**: 6 key metrics with animated cards
-- **Heatmap Slide**: Visual contribution calendar with streak stats
-- **Languages Slide**: Interactive language distribution with progress bars
-- **Repos Slide**: Detailed top repositories with hover effects
-- **Badges Slide**: Achievement system with locked/unlocked states
-- **Milestones Slide**: Key achievements celebration
-- **Summary Slide**: Thank you and call to action
+#### 🗓️ Heatmap Redesign
+- Replaced traditional GitHub-style heatmap with monthly activity cards
+- Added monthly streak and best-day statistics
+- Visual indicators for active/inactive months
+- More intuitive and data-rich presentation
 
-#### 🏆 Achievement System
-- Contribution Badges (100, 500, 1K, 2.5K contributions)
-- Streak Badges (7, 30, 100 day streaks)
-- Star Badges (10, 50, 100, 500 stars earned)
-- PR Badges (10, 50, 100 pull requests)
-- Special Badges (Polyglot, Code Reviewer)
-- Progress tracking for locked badges
+#### 📦 Repositories Slide
+- Compact three-column layout for better space usage
+- Icons always visible, numbers shown only when > 0
+- Optimized padding and spacing for mobile devices
 
-#### 🎯 Milestones Feature
-- 1K Contributions achievement
-- 2.5K Contributions achievement
-- 100 Stars achievement
-- 30-Day Streak achievement
-- 10 Repositories achievement
+#### 🎯 Milestones Slide
+- Reduced card sizes for better content fit
+- Centered content layout for visual balance
+- Improved mobile experience
 
-#### 🔄 Enhanced Features
-- Refresh functionality to update data with latest GitHub activity
-- Direct social sharing to Twitter/X and LinkedIn
-- Keyboard navigation (arrow keys) support
-- Progress indicator and slide counter
-- Loading animations and error handling
-
-#### 📊 Additional Data
-- User bio, company, location, and followers count
-- Longest and current contribution streaks
-- Best day with contribution count
-- Code review statistics
-- Repository forks and open issues count
-- Extended top repositories and languages (up to 8)
-
-#### 🛠️ Technical Improvements
-- Added session API route for client-side data fetching
-- Improved TypeScript types for new features
-- Enhanced data fetching with additional GraphQL fields
-- Optimized component structure with slide separation
-- Added index file for better module resolution
+#### 🌐 All Slides
+- Applied custom scrollbar styling across all components
+- Ensured consistent mobile adaptation
+- Enhanced hover effects and transitions
+- Improved accessibility with better contrast and sizing
 
 ---
 
-Made with ❤️ for the developer community. Share your Wrapped with `#GitHubWrapped`!
+Made with ❤️ for the developer community. 
+
+Share your Wrapped with **#GitHubWrapped**!

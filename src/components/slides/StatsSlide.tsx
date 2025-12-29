@@ -78,7 +78,6 @@ export default function StatsSlide({ data }: Props) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
               className={`p-4 md:p-6 rounded-xl md:rounded-2xl ${stat.bgColor} backdrop-blur-sm border ${stat.borderColor} hover:border-opacity-50 transition-all cursor-pointer`}
             >
               <div className="flex items-start justify-between mb-3 md:mb-4">

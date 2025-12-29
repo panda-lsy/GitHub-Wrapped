@@ -37,7 +37,6 @@ export default function MilestonesSlide({ data }: Props) {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
                 className="p-3 md:p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-sm rounded-lg md:rounded-xl border-2 border-amber-500/30 hover:border-amber-500/50 transition-all"
               >
                 <div className="flex items-center gap-3 md:gap-4">
