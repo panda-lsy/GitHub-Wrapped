@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { WrappedData } from "@/types";
 import { Star, GitFork, MessageCircle, ExternalLink } from "lucide-react";
+import "@/app/custom-scrollbar.css";
 
 interface Props {
   data: WrappedData;
@@ -20,7 +21,7 @@ export default function ReposSlide({ data }: Props) {
           Top Repositories
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 flex-1 overflow-y-auto pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 flex-1 overflow-y-auto pb-20 custom-scrollbar" data-scrollable="true">
           {data.topRepos.slice(0, 6).map((repo, index) => (
             <motion.a
               key={repo.name}
@@ -61,13 +62,13 @@ export default function ReposSlide({ data }: Props) {
                   <Star className="w-3 h-3 md:w-4 md:h-4" />
                   <span className="font-semibold text-white">{repo.stargazerCount}</span>
                 </div>
-                {repo.forks && (
+                {repo.forks && repo.forks > 0 && (
                   <div className="flex items-center gap-1 md:gap-2">
                     <GitFork className="w-3 h-3 md:w-4 md:h-4" />
                     <span className="font-semibold text-white">{repo.forks}</span>
                   </div>
                 )}
-                {repo.openIssues && (
+                {repo.openIssues && repo.openIssues > 0 && (
                   <div className="flex items-center gap-1 md:gap-2">
                     <MessageCircle className="w-3 h-3 md:w-4 md:h-4" />
                     <span className="font-semibold text-white">{repo.openIssues}</span>

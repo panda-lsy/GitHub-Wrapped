@@ -70,6 +70,22 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
   useEffect(() => {
     let wheelTimeout: NodeJS.Timeout;
     const handleWheel = (e: WheelEvent) => {
+      // Check if scrolling inside a scrollable container
+      const target = e.target as HTMLElement;
+      const scrollableElement = target.closest('[data-scrollable="true"]');
+      
+      if (scrollableElement) {
+        // Allow scrolling within the container
+        const { scrollTop, scrollHeight, clientHeight } = scrollableElement;
+        const isAtTop = scrollTop === 0;
+        const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1;
+        
+        // Only prevent default and trigger page navigation if at edges
+        if ((e.deltaY > 0 && !isAtBottom) || (e.deltaY < 0 && !isAtTop)) {
+          return;
+        }
+      }
+      
       e.preventDefault();
       
       // Debounce wheel events to prevent rapid scrolling
@@ -156,7 +172,7 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
               className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-green-600 text-white text-sm md:text-base rounded-lg hover:bg-green-500 transition-all"
             >
               <Download className="w-4 h-4" />
-              <span className="hidden sm:inline">{t.dashboard.download}</span>
+              <span className="hidden sm:inline">Download</span>
             </button>
           </div>
         </div>

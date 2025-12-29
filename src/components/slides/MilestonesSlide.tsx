@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { WrappedData } from "@/types";
 import { Calendar, Trophy } from "lucide-react";
+import "@/app/custom-scrollbar.css";
 
 interface Props {
   data: WrappedData;
@@ -29,7 +30,7 @@ export default function MilestonesSlide({ data }: Props) {
         </motion.p>
 
         {data.milestones.length > 0 ? (
-          <div className="space-y-4 md:space-y-6 flex-1 overflow-y-auto pb-20">
+          <div className="space-y-4 md:space-y-6 flex-1 overflow-y-auto pb-20 custom-scrollbar" data-scrollable="true">
             {data.milestones.map((milestone, index) => (
               <motion.div
                 key={milestone.id}
