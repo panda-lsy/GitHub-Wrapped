@@ -12,16 +12,16 @@ interface Props {
 export default function ReposSlide({ data }: Props) {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center px-4">
-      <div className="w-full max-w-4xl h-full flex flex-col">
+      <div className="w-full max-w-5xl h-full flex flex-col">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 md:mb-6 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-6 md:mb-12 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent"
         >
           Top Repositories
         </motion.h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 flex-1 overflow-y-auto pb-24 custom-scrollbar max-w-fit mx-auto" data-scrollable="true">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 flex-1 overflow-y-auto pb-20 custom-scrollbar" data-scrollable="true">
           {data.topRepos.slice(0, 6).map((repo, index) => (
             <motion.a
               key={repo.name}

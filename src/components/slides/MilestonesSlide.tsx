@@ -12,11 +12,11 @@ interface Props {
 export default function MilestonesSlide({ data }: Props) {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center px-4">
-      <div className="w-full max-w-4xl h-full flex flex-col">
+      <div className="w-full max-w-5xl h-full flex flex-col">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 md:mb-3 bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-3 md:mb-4 bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent"
         >
           Key Milestones
         </motion.h2>
@@ -24,14 +24,13 @@ export default function MilestonesSlide({ data }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center text-sm md:text-base text-gray-400 mb-4 md:mb-6"
+          className="text-center text-base md:text-xl text-gray-400 mb-6 md:mb-12"
         >
           Celebrate your achievements in {data.year}
         </motion.p>
 
         {data.milestones.length > 0 ? (
-          <div className="flex-1 overflow-y-auto pb-24 custom-scrollbar max-w-2xl mx-auto w-full" data-scrollable="true">
-            <div className="space-y-2 md:space-y-3">
+          <div className="space-y-3 md:space-y-4 flex-1 overflow-y-auto pb-20 custom-scrollbar max-w-4xl mx-auto w-full" data-scrollable="true">
             {data.milestones.map((milestone, index) => (
               <motion.div
                 key={milestone.id}
@@ -60,7 +59,6 @@ export default function MilestonesSlide({ data }: Props) {
                 </div>
               </motion.div>
             ))}
-            </div>
           </div>
         ) : (
           <motion.div
