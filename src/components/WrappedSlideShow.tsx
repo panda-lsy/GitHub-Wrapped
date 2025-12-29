@@ -67,6 +67,33 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
+  // Wheel navigation
+  useEffect(() => {
+    let wheelTimeout: NodeJS.Timeout;
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      
+      // Debounce wheel events to prevent rapid scrolling
+      if (wheelTimeout) return;
+      
+      if (e.deltaY > 0) {
+        nextSlide();
+      } else if (e.deltaY < 0) {
+        prevSlide();
+      }
+      
+      wheelTimeout = setTimeout(() => {
+        wheelTimeout = null as any;
+      }, 500);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (wheelTimeout) clearTimeout(wheelTimeout);
+    };
+  }, []);
+
   const slideVariants = {
     enter: (direction: number) => ({
       y: direction > 0 ? 1000 : -1000,
@@ -96,46 +123,53 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-500/10 rounded-full blur-[150px]" />
       </div>
 
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6 z-30">
+        <LanguageSwitcher />
+      </div>
+
       {/* Header Controls */}
-      <div className="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold text-white">GitHub Wrapped {data.year}</h1>
-          <button
-            onClick={onRefresh}
-            disabled={isRefreshing}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-800/80 backdrop-blur-sm text-white rounded-lg hover:bg-gray-700/80 transition-all disabled:opacity-50"
-          >
-            <RotateCcw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
-            {isRefreshing ? t.dashboard.generating : t.dashboard.refresh || "Refresh"}
-          </button>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => onShare("twitter")}
-            className="flex items-center gap-2 px-4 py-2 bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] transition-all"
-          >
-            <Share2 className="w-4 h-4" />
-            Twitter
-          </button>
-          <button
-            onClick={() => onShare("linkedin")}
-            className="flex items-center gap-2 px-4 py-2 bg-[#0077B5] text-white rounded-lg hover:bg-[#00669c] transition-all"
-          >
-            <Share2 className="w-4 h-4" />
-            LinkedIn
-          </button>
-          <button
-            onClick={onDownload}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition-all"
-          >
-            <Download className="w-4 h-4" />
-            {t.dashboard.download}
-          </button>
+      <div className="absolute top-0 left-0 right-0 z-20 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl md:text-2xl font-bold text-white">GitHub Wrapped {data.year}</h1>
+            <button
+              onClick={onRefresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-gray-800/80 backdrop-blur-sm text-white text-sm md:text-base rounded-lg hover:bg-gray-700/80 transition-all disabled:opacity-50"
+            >
+              <RotateCcw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
+              <span className="hidden sm:inline">{isRefreshing ? t.dashboard.generating : t.dashboard.refresh || "Refresh"}</span>
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2 md:gap-3 w-full md:w-auto justify-end">
+            <button
+              onClick={() => onShare("twitter")}
+              className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-[#1DA1F2] text-white text-sm md:text-base rounded-lg hover:bg-[#1a8cd8] transition-all"
+            >
+              <Share2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Twitter</span>
+            </button>
+            <button
+              onClick={() => onShare("linkedin")}
+              className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-[#0077B5] text-white text-sm md:text-base rounded-lg hover:bg-[#00669c] transition-all"
+            >
+              <Share2 className="w-4 h-4" />
+              <span className="hidden sm:inline">LinkedIn</span>
+            </button>
+            <button
+              onClick={onDownload}
+              className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-green-600 text-white text-sm md:text-base rounded-lg hover:bg-green-500 transition-all"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">{t.dashboard.download}</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-full flex items-center justify-center px-4 md:px-8">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentSlide}
@@ -149,41 +183,36 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
               opacity: { duration: 0.2 },
               scale: { duration: 0.2 },
             }}
-            className="absolute w-full h-full flex items-center justify-center p-8"
+            className="absolute w-full h-full flex items-center justify-center"
           >
             {slides[currentSlide]}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Language Switcher */}
-      <div className="absolute top-6 right-6 z-20">
-        <LanguageSwitcher />
-      </div>
-
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-1/2 bottom-24 -translate-x-1/2 z-20 p-3 bg-gray-800/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-700/80 transition-all disabled:opacity-30"
+        className="absolute left-1/2 bottom-32 md:bottom-24 -translate-x-1/2 z-20 p-3 md:p-4 bg-gray-800/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-700/80 transition-all disabled:opacity-30"
         disabled={currentSlide === 0}
       >
-        <ChevronUp className="w-6 h-6" />
+        <ChevronUp className="w-5 h-5 md:w-6 md:h-6" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute left-1/2 top-24 -translate-x-1/2 z-20 p-3 bg-gray-800/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-700/80 transition-all disabled:opacity-30"
+        className="absolute left-1/2 top-32 md:top-24 -translate-x-1/2 z-20 p-3 md:p-4 bg-gray-800/80 backdrop-blur-sm text-white rounded-full hover:bg-gray-700/80 transition-all disabled:opacity-30"
         disabled={currentSlide === slides.length - 1}
       >
-        <ChevronDown className="w-6 h-6" />
+        <ChevronDown className="w-5 h-5 md:w-6 md:h-6" />
       </button>
 
       {/* Progress Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+      <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 md:gap-3 px-4">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-12 h-2 rounded-full transition-all ${
+            className={`w-8 h-1.5 md:w-12 md:h-2 rounded-full transition-all ${
               index === currentSlide
                 ? "bg-gradient-to-r from-purple-500 to-blue-500 scale-110"
                 : "bg-gray-700/80 hover:bg-gray-600/80"
@@ -193,7 +222,7 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
       </div>
 
       {/* Slide Counter */}
-      <div className="absolute bottom-8 right-8 z-20 text-gray-400 text-sm">
+      <div className="absolute bottom-6 md:bottom-8 right-4 md:right-8 z-20 text-gray-400 text-xs md:text-sm">
         {currentSlide + 1} / {slides.length}
       </div>
     </div>
