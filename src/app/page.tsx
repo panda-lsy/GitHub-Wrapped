@@ -114,18 +114,6 @@ export default function Home() {
   if (!session) {
     return <LandingPage />;
   }
-  
-  // Session exists, now check status
-  if (session) {
-    // @ts-ignore
-    const token = (session as any)?.accessToken;
-    if (token) {
-      loadData(token);
-    } else {
-      setError("No access token. Please sign in with GitHub.");
-      setIsLoading(false);
-    }
-  }
 
   // Show loading if loading data
   if (isLoading) {
