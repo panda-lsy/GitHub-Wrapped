@@ -1,40 +1,126 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import LoginButton from "@/components/LoginButton";
-import Dashboard from "@/components/Dashboard";
-import LandingPage from "@/components/LandingPage";
+"use client";
+
+import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
+import WrappedSlideShow from "@/components/WrappedSlideShow";
+import { WrappedData } from "@/types";
 import { fetchGitHubData } from "@/lib/github";
 
-export default async function Home() {
-  let session;
-  
-  try {
-    session = await getServerSession(authOptions);
-  } catch (error) {
-    console.error("Failed to retrieve session:", error);
-    // If session retrieval fails, we can treat it as not logged in, 
-    // or show a specific error if it's a configuration issue.
-    // For now, let's assume it might be a temporary issue or missing env vars.
-  }
-  
-  // @ts-ignore - accessToken is added in the route handler
-  const accessToken = session?.accessToken as string;
+export default function Home() {
+  const [data, setData] = useState<WrappedData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  if (session && accessToken) {
+  const loadData = async () => {
     try {
-      const data = await fetchGitHubData(accessToken);
-      return <Dashboard data={data} />;
-    } catch (error) {
-      console.error("Error fetching GitHub data:", error);
-      return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-24 text-center">
-          <h1 className="text-2xl font-bold mb-4 text-red-500">Error loading data</h1>
-          <p className="mb-8 text-gray-400">Please try signing out and signing in again.</p>
-          <LoginButton />
-        </div>
-      );
+      setError(null);
+      setIsLoading(true);
+      
+      const response = await fetch("/api/session");
+      if (!response.ok) {
+        throw new Error("Not authenticated");
+      }
+      
+      const session = await response.json();
+      
+      if (!session || !session.accessToken) {
+        setError("Please log in with GitHub");
+        setIsLoading(false);
+        return;
+      }
+
+      const githubData = await fetchGitHubData(session.accessToken);
+      setData(githubData);
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Error loading data:", err);
+      setError("Failed to load GitHub data. Please try signing in again.");
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await loadData();
+    setIsRefreshing(false);
+  };
+
+  const handleShare = (platform: string) => {
+    if (!data) return;
+
+    const text = `🎁 Check out my GitHub ${data.year} Wrapped!\n\n` +
+                `📊 ${data.stats.totalContributions.toLocaleString()} contributions\n` +
+                `⭐ ${data.totalStarsEarned.toLocaleString()} stars earned\n` +
+                `🔥 ${data.stats.longestStreak || 0} day longest streak\n\n` +
+                `#GitHubWrapped`;
+    
+    const url = "https://githubwrapped-delta.vercel.app";
+    
+    let shareUrl = "";
+    
+    switch (platform) {
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      default:
+        return;
+    }
+    
+    window.open(shareUrl, "_blank", "width=600,height=400");
+  };
+
+  const handleDownload = () => {
+    if (!data) return;
+    alert("Download feature coming soon! Use browser screenshot to save.");
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-6" />
+          <p className="text-xl text-gray-300">Loading your GitHub Wrapped...</p>
+        </div>
+      </div>
+    );
   }
 
-  return <LandingPage />;
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8">
+        <div className="max-w-md text-center">
+          <h1 className="text-3xl font-bold text-red-500 mb-4">Error</h1>
+          <p className="text-gray-400 mb-8">{error}</p>
+          <button
+            onClick={() => signOut()}
+            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition-colors"
+          >
+            Sign In with GitHub
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (data) {
+    return (
+      <WrappedSlideShow
+        data={data}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefreshing}
+        onShare={handleShare}
+        onDownload={handleDownload}
+      />
+    );
+  }
+
+  return null;
 }

@@ -3,6 +3,11 @@ export interface GitHubUser {
   name: string;
   avatarUrl: string;
   url: string;
+  bio?: string;
+  company?: string;
+  location?: string;
+  followers?: number;
+  following?: number;
 }
 
 export interface Repository {
@@ -13,19 +18,17 @@ export interface Repository {
     name: string;
     color: string;
   } | null;
-  defaultBranchRef: {
-    target: {
-      history: {
-        totalCount: number;
-      };
-    };
-  } | null;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+  forks?: number;
+  openIssues?: number;
 }
 
 export interface LanguageStat {
   name: string;
   color: string;
-  count: number; // or size
+  count: number;
   percentage: number;
 }
 
@@ -42,6 +45,28 @@ export interface YearStats {
   totalIssues: number;
   totalReviews: number;
   contributionCalendar: ContributionDay[];
+  longestStreak?: number;
+  currentStreak?: number;
+  bestDay?: { date: string; count: number };
+}
+
+export interface Milestone {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  icon: string;
+  achieved: boolean;
+}
+
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  unlocked: boolean;
+  progress?: number;
+  maxProgress?: number;
 }
 
 export interface WrappedData {
@@ -51,5 +76,26 @@ export interface WrappedData {
   topLanguages: LanguageStat[];
   topRepos: Repository[];
   totalStarsEarned: number;
-  totalStarsGiven: number; // This might be hard to get efficiently for all time, usually just current count
+  totalStarsGiven: number;
+  milestones: Milestone[];
+  badges: Badge[];
+}
+
+export interface CardTemplate {
+  id: string;
+  name: string;
+  description: string;
+  theme: string;
+  preview?: string;
+}
+
+export interface ShareCardOptions {
+  template: CardTemplate;
+  showAvatar: boolean;
+  showStats: boolean;
+  showHeatmap: boolean;
+  showLanguages: boolean;
+  showBadges: boolean;
+  customTitle?: string;
+  customMessage?: string;
 }

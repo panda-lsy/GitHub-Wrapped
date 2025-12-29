@@ -7,6 +7,9 @@ export const dictionary = {
       loggedIn: "Logged in",
       signOut: "Sign out",
     },
+    loading: {
+      message: "Loading your GitHub Wrapped...",
+    },
     home: {
       title: "GitHub Wrapped",
       subtitle: "Discover your coding journey over the past year. Visualize your contributions, top languages, and most active repositories in a beautiful summary.",
@@ -32,6 +35,7 @@ export const dictionary = {
       title: "Your {{year}} Wrapped",
       download: "Download Image",
       generating: "Generating...",
+      refresh: "Refresh Data",
       stats: {
         contributions: "Total Contributions",
         contributionsDesc: "Commits, PRs, Issues, Reviews",
@@ -66,6 +70,9 @@ export const dictionary = {
       loggedIn: "已登录",
       signOut: "退出登录",
     },
+    loading: {
+      message: "正在加载你的 GitHub 年度总结...",
+    },
     home: {
       title: "GitHub 年度总结",
       subtitle: "探索你过去一年的编程旅程。通过精美的总结可视化你的贡献、常用语言和最活跃的仓库。",
@@ -91,6 +98,7 @@ export const dictionary = {
       title: "你的 {{year}} 年度总结",
       download: "下载图片",
       generating: "生成中...",
+      refresh: "刷新数据",
       stats: {
         contributions: "总贡献",
         contributionsDesc: "提交, PR, Issue, Review",
