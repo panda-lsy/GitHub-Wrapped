@@ -1,0 +1,14 @@
+{
+  "name": "github-wrapped",
+  "type": "nextjs",
+  "build": {
+    "command": "npm run build",
+    "outDir": ".next"
+  },
+  "assets": {
+    "path": "public"
+  },
+  "function": {
+    "path": ".next/standalone/server.js"
+  }
+}
