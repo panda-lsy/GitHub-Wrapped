@@ -2,7 +2,7 @@
 
   <!-- Title & Logo -->
   <h1 align="center">
-    <img src="image.png" alt="GitHub Wrapped" width="120" height="120">
+    <img src="image.png" alt="GitHub Wrapped">
     <br>
     GitHub Wrapped
   </h1>
