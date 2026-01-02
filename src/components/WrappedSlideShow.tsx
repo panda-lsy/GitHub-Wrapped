@@ -147,32 +147,34 @@ export default function WrappedSlideShow({
         allowTaint: true,
         width: 1080,
         height: 1350,
+        logging: true, // Enable logging to help debug
         onclone: (clonedDoc) => {
-          // Fix for "lab" color function issue in html2canvas
-          // This error often occurs when browser extensions (like Dark Reader) 
-          // or modern CSS inject lab() color functions which html2canvas doesn't support.
-          const styleElements = clonedDoc.getElementsByTagName('style');
-          for (let i = 0; i < styleElements.length; i++) {
-            const style = styleElements[i];
-            if (style.innerHTML.includes('lab(')) {
-              style.innerHTML = style.innerHTML.replace(/lab\([^)]+\)/g, 'transparent');
-            }
-          }
+          // EXTREME FIX for "lab" color function issue:
+          // Remove ALL style and link tags to prevent html2canvas from parsing problematic CSS.
+          // We have inlined essential styles in ShareCard.tsx.
+          const styles = clonedDoc.getElementsByTagName('style');
+          const links = clonedDoc.getElementsByTagName('link');
+          
+          // Convert to array to avoid live collection issues while removing
+          Array.from(styles).forEach(s => s.remove());
+          Array.from(links).forEach(l => {
+            if (l.rel === 'stylesheet') l.remove();
+          });
+
+          // Also sanitize any remaining inline styles just in case
           const allElements = clonedDoc.getElementsByTagName('*');
           for (let i = 0; i < allElements.length; i++) {
             const el = allElements[i] as HTMLElement;
             if (el.style) {
-              ['color', 'backgroundColor', 'borderColor', 'fill', 'stroke'].forEach(prop => {
+              ['color', 'backgroundColor', 'borderColor', 'fill', 'stroke', 'background'].forEach(prop => {
                 try {
                   // @ts-ignore
                   const val = el.style[prop];
-                  if (typeof val === 'string' && val.includes('lab(')) {
+                  if (typeof val === 'string' && (val.includes('lab(') || val.includes('oklch(') || val.includes('oklab('))) {
                     // @ts-ignore
                     el.style[prop] = 'transparent';
                   }
-                } catch (e) {
-                  // Ignore style access errors
-                }
+                } catch (e) {}
               });
             }
           }

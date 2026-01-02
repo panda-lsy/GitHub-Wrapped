@@ -23,9 +23,9 @@ export default function ContributionHeatmap({ data, labels, blockSize = 12, bloc
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <div className="w-full overflow-x-auto pb-2 custom-scrollbar" data-scrollable="true">
-        <div className="min-w-fit">
+    <div className="w-full flex flex-col items-center" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="w-full overflow-x-auto pb-2 custom-scrollbar" data-scrollable="true" style={{ width: '100%', overflowX: 'auto', paddingBottom: '8px' }}>
+        <div className="min-w-fit" style={{ minWidth: 'fit-content' }}>
           <ActivityCalendar
             data={data}
             theme={theme}
@@ -44,22 +44,23 @@ export default function ContributionHeatmap({ data, labels, blockSize = 12, bloc
         </div>
       </div>
       
-      <div className="w-full flex justify-end items-center gap-2 mt-2 text-gray-500" style={{ fontSize: fontSize }}>
-        <span className="text-xs md:text-sm">Less</span>
-        <div className="flex gap-1">
+      <div className="w-full flex justify-end items-center gap-2 mt-2 text-gray-500" style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '8px', marginTop: '8px', color: '#6b7280', fontSize: fontSize }}>
+        <span style={{ fontSize: '12px' }}>{labels?.less || "Less"}</span>
+        <div className="flex gap-1" style={{ display: 'flex', gap: '4px' }}>
           {theme.dark.map((color, i) => (
             <div
               key={i}
-              className="rounded-[1px] border border-gray-700/50"
               style={{ 
                 backgroundColor: color,
                 width: blockSize * 0.9,
-                height: blockSize * 0.9
+                height: blockSize * 0.9,
+                borderRadius: '1px',
+                border: '1px solid rgba(55, 65, 81, 0.5)'
               }}
             />
           ))}
         </div>
-        <span className="text-xs md:text-sm">More</span>
+        <span style={{ fontSize: '12px' }}>{labels?.more || "More"}</span>
       </div>
     </div>
   );
