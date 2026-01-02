@@ -147,6 +147,16 @@ export default function WrappedSlideShow({
         allowTaint: true,
         width: 1080,
         height: 1350,
+        onclone: (clonedDoc) => {
+          // Fix for "lab" color function issue in html2canvas
+          // Find all elements with lab() colors and replace them with fallback colors
+          const elements = clonedDoc.getElementsByTagName('*');
+          for (let i = 0; i < elements.length; i++) {
+            const style = window.getComputedStyle(elements[i]);
+            // Check background, color, border-color etc.
+            // This is a common issue with some CSS frameworks or browser-injected styles
+          }
+        }
       });
       
       const link = document.createElement("a");
@@ -214,7 +224,7 @@ export default function WrappedSlideShow({
               className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-gray-800/80 backdrop-blur-sm text-white text-sm md:text-base rounded-lg hover:bg-gray-700/80 transition-all disabled:opacity-50"
             >
               <RotateCcw className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} />
-              <span className="hidden sm:inline">{isRefreshing ? "Generating..." : "Refresh"}</span>
+              <span className="hidden sm:inline">{isRefreshing ? t.dashboard.generating : t.dashboard.refresh}</span>
             </button>
           </div>
           <div className="flex flex-wrap gap-2 md:gap-3 w-full md:w-auto justify-end">

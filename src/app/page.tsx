@@ -10,9 +10,10 @@ import { fetchGitHubData } from "@/lib/github";
 export default function Home() {
   const { data: session, status } = useSession();
   const [data, setData] = useState<WrappedData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showWrapped, setShowWrapped] = useState(false);
   const [selectedYear, setSelectedYear] = useState(() => {
     const now = new Date();
     // If it's before March, default to previous year
@@ -57,19 +58,24 @@ export default function Home() {
     
     if (!session) {
       // No session, show landing page
-      setIsLoading(false);
+      setData(null);
+      setShowWrapped(false);
       return;
     }
     
-    // Session exists
-    const token = (session as any)?.accessToken;
-    if (token) {
-      loadData(token, selectedYear);
-    } else {
-      setError("No access token in session. Please sign in again.");
-      setIsLoading(false);
+    // Session exists, but we don't load data until "Enter" is clicked
+    // or if we are already showing wrapped
+    if (showWrapped) {
+      const token = (session as any)?.accessToken;
+      if (token) {
+        loadData(token, selectedYear);
+      }
     }
-  }, [status, selectedYear]);
+  }, [status, selectedYear, showWrapped]);
+
+  const handleEnter = () => {
+    setShowWrapped(true);
+  };
 
   const handleRefresh = async () => {
     if (session) {
@@ -116,12 +122,14 @@ export default function Home() {
     alert("Download feature coming soon! Use browser screenshot to save.");
   };
 
-  // Show landing page if not authenticated
-  if (!session) {
+  // Show landing page if not authenticated or not entered
+  if (!session || !showWrapped) {
     return (
       <LandingPage 
         selectedYear={selectedYear} 
-        onYearChange={setSelectedYear} 
+        onYearChange={setSelectedYear}
+        onEnter={handleEnter}
+        isLoggedIn={!!session}
       />
     );
   }

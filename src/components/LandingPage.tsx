@@ -10,18 +10,16 @@ import { useRouter } from "next/navigation";
 interface Props {
   selectedYear: number;
   onYearChange: (year: number) => void;
+  onEnter?: () => void;
+  isLoggedIn?: boolean;
 }
 
-export default function LandingPage({ selectedYear, onYearChange }: Props) {
+export default function LandingPage({ selectedYear, onYearChange, onEnter, isLoggedIn }: Props) {
   const { t } = useLanguage();
   const router = useRouter();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
-
-  const handleGitHubLogin = () => {
-    router.push("/api/auth/signin/github");
-  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-12 md:p-24 text-center relative overflow-hidden">
@@ -85,13 +83,22 @@ export default function LandingPage({ selectedYear, onYearChange }: Props) {
           {t.home.subtitle}
         </motion.p>
 
-        {/* Animated Login Button */}
+        {/* Animated Login/Enter Button */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <LoginButton />
+          {isLoggedIn ? (
+            <button
+              onClick={onEnter}
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-xl hover:scale-105 transition-transform shadow-xl shadow-purple-500/20"
+            >
+              {t.home.enter}
+            </button>
+          ) : (
+            <LoginButton />
+          )}
         </motion.div>
 
         {/* Enhanced Feature Cards */}
