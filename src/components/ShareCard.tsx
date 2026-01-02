@@ -19,137 +19,160 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
       id="share-card-container"
       className="w-[1080px] h-[1350px] flex flex-col relative overflow-hidden"
       style={{ 
-        fontFamily: "Inter, sans-serif",
+        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         backgroundColor: "#0d1117",
         color: "#ffffff",
-        padding: "48px"
+        padding: "64px",
+        border: "1px solid #30363d"
       }}
     >
-      {/* Background Elements */}
+      {/* Background Elements - Using Radial Gradients instead of filters for better html2canvas support */}
       <div 
-        className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full" 
+        className="absolute top-0 right-0 w-[1000px] h-[1000px]" 
         style={{ 
-          backgroundColor: "rgba(34,197,94,0.1)", 
-          filter: "blur(120px)", 
-          transform: "translate(33%, -50%)" 
+          background: "radial-gradient(circle at 70% 30%, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0) 70%)",
+          position: 'absolute',
+          top: '-200px',
+          right: '-200px',
+          zIndex: 0
         }} 
       />
       <div 
-        className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full" 
+        className="absolute bottom-0 left-0 w-[800px] h-[800px]" 
         style={{ 
-          backgroundColor: "rgba(59,130,246,0.1)", 
-          filter: "blur(100px)", 
-          transform: "translate(-25%, 33%)" 
+          background: "radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%)",
+          position: 'absolute',
+          bottom: '-200px',
+          left: '-200px',
+          zIndex: 0
+        }} 
+      />
+      <div 
+        className="absolute top-1/2 left-1/2 w-[1200px] h-[1200px]" 
+        style={{ 
+          background: "radial-gradient(circle at center, rgba(192, 132, 252, 0.05) 0%, rgba(192, 132, 252, 0) 60%)",
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 0
         }} 
       />
 
       {/* Header */}
-      <div className="flex items-center gap-8 mb-10 z-10" style={{ display: 'flex', alignItems: 'center' }}>
-        <img
-          src={data.user.avatarUrl}
-          alt={data.user.name}
-          crossOrigin="anonymous"
-          className="w-28 h-28 rounded-full"
-          style={{ 
-            width: '112px',
-            height: '112px',
+      <div className="flex items-center gap-8 mb-12 z-10" style={{ display: 'flex', alignItems: 'center', marginBottom: '48px', position: 'relative', zIndex: 10 }}>
+        <div style={{ position: 'relative' }}>
+          <div style={{ 
+            position: 'absolute', 
+            inset: '-4px', 
+            background: 'linear-gradient(45deg, #4ade80, #60a5fa, #c084fc)', 
             borderRadius: '9999px',
-            border: "4px solid #374151",
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
-          }}
-        />
+            zIndex: -1
+          }} />
+          <img
+            src={data.user.avatarUrl}
+            alt={data.user.name}
+            crossOrigin="anonymous"
+            style={{ 
+              width: '140px',
+              height: '140px',
+              borderRadius: '9999px',
+              border: "4px solid #0d1117",
+              display: 'block'
+            }}
+          />
+        </div>
         <div>
           <h1 
-            className="text-5xl font-bold mb-2 text-white"
-            style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '8px', color: 'white' }}
+            style={{ fontSize: '64px', fontWeight: 800, marginBottom: '8px', color: 'white', letterSpacing: '-0.02em' }}
           >
             {data.user.name || data.user.login}
           </h1>
-          <p className="text-2xl text-[#9ca3af]" style={{ fontSize: '24px', color: '#9ca3af' }}>@{data.user.login}</p>
+          <p style={{ fontSize: '32px', color: '#8b949e', fontWeight: 500 }}>@{data.user.login}</p>
         </div>
-        <div className="ml-auto" style={{ marginLeft: 'auto' }}>
+        <div style={{ marginLeft: 'auto' }}>
           <div 
-            className="flex items-center gap-3 px-6 py-3 rounded-full" 
             style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              gap: '12px', 
-              backgroundColor: "rgba(31,41,55,0.5)", 
-              padding: "12px 24px", 
+              gap: '16px', 
+              backgroundColor: "rgba(22, 27, 34, 0.8)", 
+              padding: "16px 32px", 
               borderRadius: "9999px", 
-              border: "1px solid #374151" 
+              border: "1px solid #30363d",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.3)"
             }}
           >
-            <Github className="w-8 h-8" style={{ width: '32px', height: '32px' }} />
-            <span className="text-2xl font-bold" style={{ fontSize: '24px', fontWeight: 'bold' }}>{t.shareCard.title.replace("{{year}}", data.year.toString())}</span>
+            <Github size={40} />
+            <span style={{ fontSize: '32px', fontWeight: 800, color: '#f0f6fc' }}>{data.year}</span>
           </div>
         </div>
       </div>
 
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-2 gap-6 mb-10 z-10" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '40px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px', marginBottom: '48px', position: 'relative', zIndex: 10 }}>
         <div 
-          className="border rounded-3xl p-8" 
           style={{ 
-            backgroundColor: "rgba(31,41,55,0.4)", 
-            border: "1px solid rgba(55,65,81,0.5)", 
-            borderRadius: "24px", 
-            padding: "32px" 
+            backgroundColor: "rgba(22, 27, 34, 0.6)", 
+            border: "1px solid #30363d", 
+            borderRadius: "32px", 
+            padding: "40px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.2)"
           }}
         >
-          <div className="flex items-center gap-4 mb-4" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: "#4ade80" }}>
-            <GitCommit className="w-10 h-10" style={{ width: '40px', height: '40px' }} />
-            <span className="text-2xl font-medium" style={{ fontSize: '24px', fontWeight: 500 }}>{t.shareCard.contributions}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', color: "#4ade80" }}>
+            <GitCommit size={48} />
+            <span style={{ fontSize: '28px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.shareCard.contributions}</span>
           </div>
-          <p className="text-6xl font-bold" style={{ fontSize: '60px', fontWeight: 'bold' }}>{data.stats.totalContributions.toLocaleString()}</p>
+          <p style={{ fontSize: '80px', fontWeight: 800, color: '#f0f6fc' }}>{data.stats.totalContributions.toLocaleString()}</p>
         </div>
         
         <div 
-          className="border rounded-3xl p-8" 
           style={{ 
-            backgroundColor: "rgba(31,41,55,0.4)", 
-            border: "1px solid rgba(55,65,81,0.5)", 
-            borderRadius: "24px", 
-            padding: "32px" 
+            backgroundColor: "rgba(22, 27, 34, 0.6)", 
+            border: "1px solid #30363d", 
+            borderRadius: "32px", 
+            padding: "40px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.2)"
           }}
         >
-          <div className="flex items-center gap-4 mb-4" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: "#facc15" }}>
-            <Star className="w-10 h-10" style={{ width: '40px', height: '40px' }} />
-            <span className="text-2xl font-medium" style={{ fontSize: '24px', fontWeight: 500 }}>{t.shareCard.stars}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', color: "#facc15" }}>
+            <Star size={48} />
+            <span style={{ fontSize: '28px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.shareCard.stars}</span>
           </div>
-          <p className="text-6xl font-bold" style={{ fontSize: '60px', fontWeight: 'bold' }}>{data.totalStarsEarned.toLocaleString()}</p>
+          <p style={{ fontSize: '80px', fontWeight: 800, color: '#f0f6fc' }}>{data.totalStarsEarned.toLocaleString()}</p>
         </div>
 
         <div 
-          className="border rounded-3xl p-8" 
           style={{ 
-            backgroundColor: "rgba(31,41,55,0.4)", 
-            border: "1px solid rgba(55,65,81,0.5)", 
-            borderRadius: "24px", 
-            padding: "32px" 
+            backgroundColor: "rgba(22, 27, 34, 0.6)", 
+            border: "1px solid #30363d", 
+            borderRadius: "32px", 
+            padding: "40px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.2)"
           }}
         >
-          <div className="flex items-center gap-4 mb-4" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: "#c084fc" }}>
-            <GitPullRequest className="w-10 h-10" style={{ width: '40px', height: '40px' }} />
-            <span className="text-2xl font-medium" style={{ fontSize: '24px', fontWeight: 500 }}>{t.shareCard.prs}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', color: "#c084fc" }}>
+            <GitPullRequest size={48} />
+            <span style={{ fontSize: '28px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.shareCard.prs}</span>
           </div>
-          <p className="text-6xl font-bold" style={{ fontSize: '60px', fontWeight: 'bold' }}>{data.stats.totalPullRequests.toLocaleString()}</p>
+          <p style={{ fontSize: '80px', fontWeight: 800, color: '#f0f6fc' }}>{data.stats.totalPullRequests.toLocaleString()}</p>
         </div>
 
         <div 
-          className="border rounded-3xl p-8" 
           style={{ 
-            backgroundColor: "rgba(31,41,55,0.4)", 
-            border: "1px solid rgba(55,65,81,0.5)", 
-            borderRadius: "24px", 
-            padding: "32px" 
+            backgroundColor: "rgba(22, 27, 34, 0.6)", 
+            border: "1px solid #30363d", 
+            borderRadius: "32px", 
+            padding: "40px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.2)"
           }}
         >
-          <div className="flex items-center gap-4 mb-4" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: "#60a5fa" }}>
-            <Trophy className="w-10 h-10" style={{ width: '40px', height: '40px' }} />
-            <span className="text-2xl font-medium" style={{ fontSize: '24px', fontWeight: 500 }}>{t.shareCard.topLanguage}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', color: "#60a5fa" }}>
+            <Trophy size={48} />
+            <span style={{ fontSize: '28px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.shareCard.topLanguage}</span>
           </div>
-          <p className="text-5xl font-bold leading-tight break-words" style={{ fontSize: '48px', fontWeight: 'bold', lineHeight: 1.2 }}>
+          <p style={{ fontSize: '64px', fontWeight: 800, color: '#f0f6fc', lineHeight: 1.1 }}>
             {data.topLanguages[0]?.name || "N/A"}
           </p>
         </div>
@@ -157,21 +180,23 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
 
       {/* Heatmap Section */}
       <div 
-        className="border rounded-3xl p-8 mb-10 z-10 flex-1 flex flex-col justify-center" 
         style={{ 
-          backgroundColor: "rgba(31,41,55,0.4)", 
-          border: "1px solid rgba(55,65,81,0.5)", 
-          borderRadius: "24px", 
-          padding: "32px", 
-          marginBottom: "40px", 
+          backgroundColor: "rgba(22, 27, 34, 0.6)", 
+          border: "1px solid #30363d", 
+          borderRadius: "32px", 
+          padding: "48px", 
+          marginBottom: "48px", 
           flex: 1, 
           display: 'flex', 
           flexDirection: 'column', 
-          justifyContent: 'center' 
+          justifyContent: 'center',
+          position: 'relative',
+          zIndex: 10,
+          boxShadow: "0 8px 32px rgba(0,0,0,0.2)"
         }}
       >
-        <h3 className="text-3xl font-bold mb-8 text-[#d1d5db]" style={{ fontSize: '30px', fontWeight: 'bold', marginBottom: '32px', color: '#d1d5db' }}>{t.shareCard.graph}</h3>
-        <div className="w-full flex justify-center" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <h3 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '40px', color: '#8b949e', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{t.shareCard.graph}</h3>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
            <ContributionHeatmap 
              data={data.stats.contributionCalendar} 
              labels={{
@@ -179,44 +204,42 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
                more: t.dashboard.charts.more,
                totalCount: t.dashboard.charts.totalCount,
              }}
-             blockSize={16}
+             blockSize={18}
              blockMargin={5}
-             fontSize={20}
+             fontSize={18}
            />
         </div>
       </div>
 
       {/* Footer */}
-      <div className="mt-auto flex justify-between items-end z-10" style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-        <div className="flex gap-4" style={{ display: 'flex', gap: '16px' }}>
+      <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', position: 'relative', zIndex: 10 }}>
+        <div style={{ display: 'flex', gap: '20px' }}>
           {data.topLanguages.slice(0, 3).map((lang) => (
             <div 
               key={lang.name} 
-              className="flex items-center gap-2 px-4 py-2 rounded-full" 
               style={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                gap: '8px', 
-                backgroundColor: "rgba(31,41,55,0.6)", 
-                padding: "8px 16px", 
-                borderRadius: "9999px" 
+                gap: '12px', 
+                backgroundColor: "rgba(48, 54, 61, 0.8)", 
+                padding: "12px 24px", 
+                borderRadius: "9999px",
+                border: "1px solid #484f58"
               }}
             >
-              <div className="w-4 h-4 rounded-full" style={{ width: '16px', height: '16px', borderRadius: '9999px', backgroundColor: lang.color }} />
-              <span className="text-lg font-medium" style={{ fontSize: '18px', fontWeight: 500 }}>{lang.name}</span>
+              <div style={{ width: '20px', height: '20px', borderRadius: '9999px', backgroundColor: lang.color }} />
+              <span style={{ fontSize: '24px', fontWeight: 600, color: '#f0f6fc' }}>{lang.name}</span>
             </div>
           ))}
         </div>
-        <div className="text-right" style={{ textAlign: 'right' }}>
-          <p className="text-xl text-[#9ca3af] mb-1" style={{ fontSize: '20px', color: '#9ca3af', marginBottom: '4px' }}>Generated by</p>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ fontSize: '24px', color: '#8b949e', marginBottom: '8px', fontWeight: 500 }}>Generated by</p>
           <p 
-            className="text-3xl font-bold" 
             style={{ 
-              fontSize: '30px', 
-              fontWeight: 'bold', 
-              background: 'linear-gradient(to right, #c084fc, #db2777)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent' 
+              fontSize: '48px', 
+              fontWeight: 900, 
+              color: '#c084fc',
+              letterSpacing: '-0.02em'
             }}
           >
             GitHub Wrapped
@@ -224,6 +247,7 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
         </div>
       </div>
     </div>
+
   );
 });
 
