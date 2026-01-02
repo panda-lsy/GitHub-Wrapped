@@ -7,9 +7,17 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 
-export default function LandingPage() {
+interface Props {
+  selectedYear: number;
+  onYearChange: (year: number) => void;
+}
+
+export default function LandingPage({ selectedYear, onYearChange }: Props) {
   const { t } = useLanguage();
   const router = useRouter();
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
   const handleGitHubLogin = () => {
     router.push("/api/auth/signin/github");
@@ -23,7 +31,21 @@ export default function LandingPage() {
       <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-pink-500/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
       
       {/* Floating Elements */}
-      <div className="absolute top-4 right-4 z-20 animate-pulse">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-4">
+        <div className="flex items-center gap-2 bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-xl px-3 py-1.5">
+          <span className="text-gray-400 text-xs font-medium uppercase tracking-wider">Year</span>
+          <select
+            value={selectedYear}
+            onChange={(e) => onYearChange(Number(e.target.value))}
+            className="bg-transparent text-white text-sm font-bold focus:outline-none cursor-pointer"
+          >
+            {years.map((year) => (
+              <option key={year} value={year} className="bg-gray-800 text-white">
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
         <LanguageSwitcher />
       </div>
 

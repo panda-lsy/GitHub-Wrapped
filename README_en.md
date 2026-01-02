@@ -93,6 +93,7 @@
 ### Analytics
 
 #### Statistics Overview
+- **Multi-year Support** - View summaries for the past 5 years with smart default year selection
 - Total Contributions (Commits, PRs, Issues, Code Reviews)
 - Stars Earned
 - Pull Requests Created

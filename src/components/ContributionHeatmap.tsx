@@ -22,9 +22,6 @@ export default function ContributionHeatmap({ data, labels, blockSize = 12, bloc
     dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
   };
 
-  // Get the current year for month labels
-  const year = new Date().getFullYear();
-
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full overflow-x-auto pb-2 custom-scrollbar" data-scrollable="true">

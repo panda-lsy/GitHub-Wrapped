@@ -22,13 +22,26 @@ interface Props {
   isRefreshing: boolean;
   onShare: (platform: string) => void;
   onDownload: () => void;
+  selectedYear: number;
+  onYearChange: (year: number) => void;
 }
 
-export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShare, onDownload }: Props) {
+export default function WrappedSlideShow({ 
+  data, 
+  onRefresh, 
+  isRefreshing, 
+  onShare, 
+  onDownload,
+  selectedYear,
+  onYearChange
+}: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
   const { t } = useLanguage();
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
   const slides = [
     <IntroSlide key="intro" data={data} />,
@@ -149,7 +162,20 @@ export default function WrappedSlideShow({ data, onRefresh, isRefreshing, onShar
       <div className="absolute top-0 left-0 right-0 z-20 p-4 md:p-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl md:text-2xl font-bold text-white">GitHub Wrapped {data.year}</h1>
+            <div className="flex items-center gap-2 bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-xl px-3 py-1.5">
+              <span className="text-gray-400 text-xs font-medium uppercase tracking-wider">Year</span>
+              <select
+                value={selectedYear}
+                onChange={(e) => onYearChange(Number(e.target.value))}
+                className="bg-transparent text-white text-sm font-bold focus:outline-none cursor-pointer"
+              >
+                {years.map((year) => (
+                  <option key={year} value={year} className="bg-gray-800 text-white">
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
             <button
               onClick={onRefresh}
               disabled={isRefreshing}

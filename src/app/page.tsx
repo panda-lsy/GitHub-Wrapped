@@ -13,8 +13,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedYear, setSelectedYear] = useState(() => {
+    const now = new Date();
+    // If it's before March, default to previous year
+    return now.getMonth() < 2 ? now.getFullYear() - 1 : now.getFullYear();
+  });
 
-  const loadData = async (accessToken?: string) => {
+  const loadData = async (accessToken?: string, year?: number) => {
     try {
       setError(null);
       setIsLoading(true);
@@ -28,8 +33,9 @@ export default function Home() {
         return;
       }
 
-      console.log("Fetching GitHub data with token...");
-      const githubData = await fetchGitHubData(token);
+      const targetYear = year || selectedYear;
+      console.log(`Fetching GitHub data for ${targetYear} with token...`);
+      const githubData = await fetchGitHubData(token, targetYear);
       setData(githubData);
       setIsLoading(false);
       console.log("Data loaded successfully!");
@@ -58,19 +64,19 @@ export default function Home() {
     // Session exists
     const token = (session as any)?.accessToken;
     if (token) {
-      loadData(token);
+      loadData(token, selectedYear);
     } else {
       setError("No access token in session. Please sign in again.");
       setIsLoading(false);
     }
-  }, [status]);
+  }, [status, selectedYear]);
 
   const handleRefresh = async () => {
     if (session) {
       setIsRefreshing(true);
       const token = (session as any)?.accessToken;
       if (token) {
-        await loadData(token);
+        await loadData(token, selectedYear);
       } else {
         setError("No access token. Please sign in again.");
         setIsRefreshing(false);
@@ -112,7 +118,12 @@ export default function Home() {
 
   // Show landing page if not authenticated
   if (!session) {
-    return <LandingPage />;
+    return (
+      <LandingPage 
+        selectedYear={selectedYear} 
+        onYearChange={setSelectedYear} 
+      />
+    );
   }
 
   // Show loading if loading data
@@ -154,6 +165,8 @@ export default function Home() {
         isRefreshing={isRefreshing}
         onShare={handleShare}
         onDownload={handleDownload}
+        selectedYear={selectedYear}
+        onYearChange={setSelectedYear}
       />
     );
   }
