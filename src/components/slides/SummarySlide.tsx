@@ -42,21 +42,21 @@ export default function SummarySlide({ data }: Props) {
         >
           <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm rounded-2xl border border-purple-500/30 p-4 md:p-6">
             <p className="text-2xl md:text-4xl font-bold text-purple-400 mb-1 md:mb-2">
-              {data.contributions.totalContributions}
+              {data.stats.totalContributions}
             </p>
             <p className="text-sm md:text-base text-gray-400">Contributions</p>
           </div>
 
           <div className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm rounded-2xl border border-blue-500/30 p-4 md:p-6">
             <p className="text-2xl md:text-4xl font-bold text-blue-400 mb-1 md:mb-2">
-              {data.repositories.length}
+              {data.topRepos.length}
             </p>
             <p className="text-sm md:text-base text-gray-400">Repositories</p>
           </div>
 
           <div className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 backdrop-blur-sm rounded-2xl border border-green-500/30 p-4 md:p-6">
             <p className="text-2xl md:text-4xl font-bold text-green-400 mb-1 md:mb-2">
-              {data.languages.length}
+              {data.topLanguages.length}
             </p>
             <p className="text-sm md:text-base text-gray-400">Languages</p>
           </div>
