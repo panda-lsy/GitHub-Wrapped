@@ -2,7 +2,8 @@
   "name": "github-wrapped",
   "type": "nextjs",
   "build": {
-    "command": "npm run build"
+    "command": "npm run build",
+    "outDir": ".next"
   },
   "publish": {
     "assets": "public",
