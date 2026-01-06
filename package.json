@@ -5,7 +5,7 @@
   "repository": "https://github.com/Freakz3z/GitHub-Wrapped",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npx shx mkdir -p .next/standalone/.next && npx shx cp -r public .next/standalone/ && npx shx cp -r .next/static .next/standalone/.next/",
+    "build": "next build && npx shx mkdir -p .next/standalone/.next && npx shx cp -r public .next/standalone/ && npx shx cp -r .next/static .next/standalone/.next/ && npx shx cp esa-handler.js .next/standalone/",
     "start": "next start",
     "lint": "eslint"
   },

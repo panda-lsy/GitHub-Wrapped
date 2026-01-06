@@ -1,53 +1,57 @@
 const next = require('next');
-const path = require('path');
 
-const dir = path.join(__dirname, '.next', 'standalone');
-
+// Set environment
 process.env.NODE_ENV = 'production';
-process.chdir(dir);
 
+// Initialize Next.js app (standalone directory is the current dir)
 const app = next({
   dev: false,
-  dir,
+  dir: '.',
 });
 
 const handle = app.getRequestHandler();
 
-// Initialize app
-app.prepare().then(() => {
+// Prepare app once at startup
+let isPrepared = false;
+const preparePromise = app.prepare().then(() => {
+  isPrepared = true;
   console.log('Next.js app prepared');
 });
 
-// Export handler for ESA (Event-Driven Architecture)
+// Export handler for ESA
 module.exports.handler = async (event, context) => {
-  // ESA event format
-  const path = event.path || '/';
+  // Wait for app to be ready
+  await preparePromise;
+
+  // Parse event
+  const reqPath = event.path || '/';
   const method = event.method || 'GET';
   const headers = event.headers || {};
   const queryString = event.queryStringParameters || {};
-  const body = event.body;
 
-  // Build URL with query string
-  const url = new URL(path, 'http://localhost');
-  Object.entries(queryString).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
-  });
+  // Build full URL with query string
+  const queryStringStr = Object.entries(queryString)
+    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+    .join('&');
+  const fullUrl = reqPath + (queryStringStr ? `?${queryStringStr}` : '');
 
-  // Create Node.js request/response mocks
+  // Create mock request
   const req = {
     method,
-    url: url.pathname + url.search,
+    url: fullUrl,
     headers,
   };
 
-  let responseData = '';
-  let responseStatus = 200;
+  // Collect response data
+  let responseData = Buffer.from('');
   const responseHeaders = {};
+  let statusCode = 200;
 
+  // Create mock response
   const res = {
     statusCode: 200,
     status(code) {
-      this.statusCode = code;
+      statusCode = code;
       return this;
     },
     setHeader(name, value) {
@@ -59,24 +63,35 @@ module.exports.handler = async (event, context) => {
     getHeaders() {
       return responseHeaders;
     },
+    write(data) {
+      if (Buffer.isBuffer(data)) {
+        responseData = Buffer.concat([responseData, data]);
+      } else {
+        responseData = Buffer.concat([responseData, Buffer.from(data)]);
+      }
+    },
     end(data) {
-      responseData = data;
+      if (data) {
+        this.write(data);
+      }
     },
     send(data) {
-      responseData = data;
+      if (data) {
+        responseData = Buffer.isBuffer(data) ? data : Buffer.from(data);
+      }
     },
   };
-
-  // Wait for app to be ready
-  await app.prepare();
 
   // Handle the request
   await handle(req, res);
 
+  // Convert buffer to string for response
+  const bodyStr = responseData.toString('utf-8');
+
   // Return ESA response format
   return {
-    statusCode: res.statusCode || responseStatus,
+    statusCode,
     headers: responseHeaders,
-    body: responseData,
+    body: bodyStr,
   };
 };
