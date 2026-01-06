@@ -18,11 +18,10 @@ const ShareCard = forwardRef<HTMLDivElement, Props>(({ data }, ref) => {
       ref={ref}
       id="share-card-container"
       className="flex flex-col relative"
-      style={{ 
+      style={{
         width: '1080px',
-        height: '1350px',
-        minWidth: '1080px',
         minHeight: '1350px',
+        maxHeight: 'fit-content',
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         backgroundColor: "#0d1117",
         color: "#ffffff",

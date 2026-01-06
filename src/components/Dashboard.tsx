@@ -56,22 +56,20 @@ export default function Dashboard({ data }: Props) {
         useCORS: true,
         allowTaint: true,
         logging: false,
-        width: 1080,
-        height: 1350,
-        windowWidth: 1080,
-        windowHeight: 1350,
+        width: rect.width,
+        height: rect.height,
+        windowWidth: 1920,
+        windowHeight: 3000,
         scrollX: 0,
         scrollY: 0,
         onclone: (clonedDoc) => {
           const container = clonedDoc.getElementById('share-card-container');
           if (container) {
-            // Force exact dimensions
+            // Let content flow naturally
             container.style.width = '1080px';
-            container.style.height = '1350px';
-            container.style.minWidth = '1080px';
+            container.style.height = 'auto';
             container.style.minHeight = '1350px';
-            container.style.maxWidth = '1080px';
-            container.style.maxHeight = '1350px';
+            container.style.maxHeight = 'none';
             container.style.display = 'flex';
             container.style.flexDirection = 'column';
             container.style.position = 'relative';
@@ -92,8 +90,8 @@ export default function Dashboard({ data }: Props) {
           const body = clonedDoc.body;
           if (body) {
             body.style.overflow = 'visible';
-            body.style.width = '1080px';
-            body.style.height = '1350px';
+            body.style.width = 'auto';
+            body.style.height = 'auto';
           }
         }
       });
