@@ -14,6 +14,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET || "dummy_secret_for_build",
+
+  // 明确使用 JWT 策略（无状态，适合 serverless 环境）
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 天
+  },
+
+  // JWT 配置
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60, // 30 天
+  },
+
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
