@@ -83,7 +83,6 @@ async function main() {
 
   const rootDir = process.cwd();
   const nextDir = path.join(rootDir, '.next');
-  const outputDir = path.join(rootDir, '.esa-build');
 
   // 检查 .next 是否存在
   if (!fs.existsSync(nextDir)) {
@@ -92,19 +91,16 @@ async function main() {
     process.exit(1);
   }
 
-  // 清理旧的输出
-  log('🧹 清理旧的构建输出...');
-  if (fs.existsSync(outputDir)) {
-    removeDirectory(outputDir);
-  }
-  fs.mkdirSync(outputDir, { recursive: true });
-  log('  ✅ 清理完成', 'green');
-
-  // 复制 .next/server 到 .esa-build/api
+  // 复制 .next/server 到 api/ (项目根目录)
   // 这样平台就能从 api/ 目录找到函数文件
-  log('📦 复制 API Routes...');
+  log('📦 复制 API Routes 到项目根目录...');
   const serverDir = path.join(nextDir, 'server');
-  const apiDir = path.join(outputDir, 'api');
+  const apiDir = path.join(rootDir, 'api');
+
+  // 清理旧的 api 目录
+  if (fs.existsSync(apiDir)) {
+    removeDirectory(apiDir);
+  }
 
   if (fs.existsSync(serverDir)) {
     copyDirectory(serverDir, apiDir);
@@ -113,10 +109,16 @@ async function main() {
     log('  ⚠️  .next/server 目录不存在', 'yellow');
   }
 
-  // 复制 .next/static 到 .esa-build/_next/static
-  log('📦 复制静态资源...');
+  // 复制 .next/static 到 _next/static (项目根目录)
+  log('📦 复制静态资源到项目根目录...');
   const staticDir = path.join(nextDir, 'static');
-  const nextStaticDir = path.join(outputDir, '_next', 'static');
+  const nextStaticDir = path.join(rootDir, '_next', 'static');
+
+  // 清理旧的 _next 目录
+  const oldNextStaticDir = path.join(rootDir, '_next');
+  if (fs.existsSync(oldNextStaticDir)) {
+    removeDirectory(oldNextStaticDir);
+  }
 
   if (fs.existsSync(staticDir)) {
     copyDirectory(staticDir, nextStaticDir);
@@ -125,17 +127,7 @@ async function main() {
     log('  ⚠️  .next/static 目录不存在', 'yellow');
   }
 
-  // 复制 public 到 .esa-build/public
-  log('📦 复制 public 目录...');
-  const publicDir = path.join(rootDir, 'public');
-  const outputPublicDir = path.join(outputDir, 'public');
-
-  if (fs.existsSync(publicDir)) {
-    copyDirectory(publicDir, outputPublicDir);
-    log('  ✅ public 目录复制完成', 'green');
-  } else {
-    log('  ⚠️  public 目录不存在', 'yellow');
-  }
+  // public 目录不需要复制，它已经在项目根目录
 
   // 创建清单文件
   log('📝 生成构建清单...');
@@ -155,20 +147,19 @@ async function main() {
   };
 
   fs.writeFileSync(
-    path.join(outputDir, 'manifest.json'),
+    path.join(rootDir, 'manifest.json'),
     JSON.stringify(manifest, null, 2)
   );
   log('  ✅ 清单生成完成', 'green');
 
   // 完成
   logStep('构建后处理完成');
-  log(`✅ ESA 部署包已生成: ${outputDir}`, 'green');
-  log('\n目录结构:', 'blue');
-  log('  .esa-build/');
-  log('    ├── api/          ← API Routes (函数文件)');
-  log('    ├── _next/        ← Next.js 静态资源');
-  log('    ├── public/       ← 公共资源');
-  log('    └── manifest.json ← 构建清单');
+  log('✅ ESA 部署文件已生成到项目根目录', 'green');
+  log('\n生成的目录/文件:', 'blue');
+  log('  api/           ← API Routes (函数文件)');
+  log('  _next/static/  ← Next.js 静态资源');
+  log('  public/        ← 公共资源 (已存在)');
+  log('  manifest.json  ← 构建清单');
   log('\n提示: 在 ESA 平台配置"函数文件路径"为: api', 'blue');
 }
 
