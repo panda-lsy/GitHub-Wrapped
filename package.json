@@ -3,6 +3,7 @@
   "version": "0.1.9",
   "private": true,
   "repository": "https://github.com/Freakz3z/GitHub-Wrapped",
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build && npx shx mkdir -p .next/standalone/.next && npx shx cp -r public .next/standalone/ && npx shx cp -r .next/static .next/standalone/.next/ && npx shx cp esa-server.js .next/standalone/",
