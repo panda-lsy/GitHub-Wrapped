@@ -5,11 +5,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   output: "standalone",
 
-  // 函数计算优化配置
-  experimental: {
-    // 优化包大小（可选）
-    serverComponentsExternalPackages: ['sharp'],
-  },
+  // 服务器组件外部包（Next.js 16+）
+  serverExternalPackages: ['sharp'],
 
   // 图片优化配置（函数计算环境）
   images: {
