@@ -8,6 +8,7 @@
     "build": "next build && npx shx mkdir -p .next/standalone/.next && npx shx cp -r public .next/standalone/ && npx shx cp -r .next/static .next/standalone/.next/ && npx shx cp esa-server.js .next/standalone/",
     "build:esa": "next build && node scripts/post-build-esa.js",
     "build:esa-container": "next build && node scripts/post-build-esa-container.js",
+    "build:esa-index": "next build",
     "build:fc": "next build && npx shx mkdir -p .next/standalone/.next && npx shx cp -r public .next/standalone/ && npx shx cp -r .next/static .next/standalone/.next/ && npx shx cp server.js fc-handler.js package.json .next/standalone/ && npx shx mkdir -p .next/standalone/node_modules/next && npx shx cp -r node_modules/next/dist .next/standalone/node_modules/next/",
     "start": "next start",
     "lint": "eslint",
