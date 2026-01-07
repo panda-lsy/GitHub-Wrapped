@@ -11,7 +11,7 @@
     "cleanDistDir": true,
     "assetPrefix": "",
     "cacheMaxMemorySize": 52428800,
-    "configOrigin": "next.config.ts",
+    "configOrigin": "next.config.js",
     "useFileSystemPublicRoutes": true,
     "generateEtags": true,
     "pageExtensions": [
@@ -100,7 +100,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "F:\\Desktop\\GitHub-Wrapped",
+    "outputFileTracingRoot": "f:\\Desktop\\GitHub-Wrapped",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -206,9 +206,6 @@
       "proxyClientMaxBodySize": 10485760,
       "hideLogsAfterAbort": false,
       "mcpServer": true,
-      "serverComponentsExternalPackages": [
-        "sharp"
-      ],
       "optimizePackageImports": [
         "lucide-react",
         "date-fns",
@@ -291,17 +288,17 @@
     },
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
-    "configFileName": "next.config.ts",
+    "configFileName": "next.config.js",
     "reactCompiler": true,
     "serverExternalPackages": [
       "sharp"
     ],
     "turbopack": {
-      "root": "F:\\Desktop\\GitHub-Wrapped"
+      "root": "f:\\Desktop\\GitHub-Wrapped"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "F:\\Desktop\\GitHub-Wrapped",
+  "appDir": "f:\\Desktop\\GitHub-Wrapped",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",
