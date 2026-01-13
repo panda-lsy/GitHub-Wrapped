@@ -1,0 +1,72 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  github-wrapped-service:
+    Type: 'Aliyun::Serverless::Service'
+    Properties:
+      Description: 'GitHub Wrapped - Serverless Function Compute Application'
+      InternetAccess: true
+    Functions:
+      nextjs-handler:
+        Type: 'Aliyun::Serverless::Function'
+        Properties:
+          Description: 'Next.js Application Handler'
+          Handler: index.handler
+          Runtime: nodejs20
+          MemorySize: 1024
+          Timeout: 30
+          CodeUri: ./
+          InstanceConcurrency: 10
+          EnvironmentVariables:
+            NODE_ENV: production
+            # 请在部署时修改以下环境变量
+            NEXTAUTH_URL: https://your-service-id.cn-hangzhou.fc.aliyuncs.com/http-trigger/
+            NEXTAUTH_SECRET: please-change-this-to-a-random-secret
+            GITHUB_CLIENT_ID: your-github-client-id
+            GITHUB_CLIENT_SECRET: your-github-client-secret
+        Events:
+          http-trigger:
+            Type: HTTP
+            Properties:
+              AuthType: ANONYMOUS
+              Methods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                - OPTIONS
+              RestApiId: Auto
+        # 为 ShareCard 功能创建更高配置的版本（可选）
+        share-card-handler:
+          Type: 'Aliyun::Serverless::Function'
+          Properties:
+            Description: 'ShareCard Image Generation Handler (Higher Memory)'
+            Handler: index.handler
+            Runtime: nodejs20
+            MemorySize: 1536
+            Timeout: 60
+            CodeUri: ./
+            InstanceConcurrency: 5
+            EnvironmentVariables:
+              NODE_ENV: production
+              NEXTAUTH_URL: https://your-service-id.cn-hangzhou.fc.aliyuncs.com/http-trigger/
+              NEXTAUTH_SECRET: please-change-this-to-a-random-secret
+              GITHUB_CLIENT_ID: your-github-client-id
+              GITHUB_CLIENT_SECRET: your-github-client-secret
+          Events:
+            share-card-trigger:
+              Type: HTTP
+              Properties:
+                AuthType: ANONYMOUS
+                Methods:
+                  - GET
+                  - POST
+                Path: /api/share-card/*
+                RestApiId: Auto
+
+Outputs:
+  # 输出函数计算访问地址
+  FunctionUrl:
+    Description: 'Function Compute HTTP Trigger URL'
+    Value: 'https://your-service-id.cn-hangzhou.fc.aliyuncs.com/http-trigger/'

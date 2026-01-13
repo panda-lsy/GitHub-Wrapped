@@ -17,8 +17,14 @@
 /coverage
 
 # next.js
-/.next/
+.next/
+.esa-build/
 /out/
+
+# ESA 构建产物
+api/
+_next/
+manifest.json
 
 # production
 /build

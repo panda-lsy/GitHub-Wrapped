@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "platform": "esa-serverless",
+  "build": {
+    "outputDir": ".next",
+    "staticDir": "public",
+    "functionDir": ".next/server/app/api"
+  },
+  "functions": [
+    {
+      "name": "auth",
+      "path": ".next/server/app/api/auth/[...nextauth]/route.js",
+      "route": "/api/auth/[...nextauth]",
+      "handler": "default",
+      "method": ["GET", "POST"]
+    },
+    {
+      "name": "session",
+      "path": ".next/server/app/api/session/route.js",
+      "route": "/api/session",
+      "handler": "default",
+      "method": ["GET"]
+    }
+  ],
+  "static": {
+    "assets": ["public/**/*"],
+    "nextStatic": [".next/static/**/*"]
+  },
+  "env": {
+    "required": [
+      "NEXTAUTH_URL",
+      "NEXTAUTH_SECRET",
+      "GITHUB_CLIENT_ID",
+      "GITHUB_CLIENT_SECRET"
+    ]
+  }
+}
