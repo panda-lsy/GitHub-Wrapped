@@ -1,92 +1,61 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
 import WrappedSlideShow from "@/components/WrappedSlideShow";
 import LandingPage from "@/components/LandingPage";
 import { WrappedData } from "@/types";
 import { fetchGitHubData } from "@/lib/github";
 
 export default function Home() {
-  const { data: session, status } = useSession();
   const [data, setData] = useState<WrappedData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showWrapped, setShowWrapped] = useState(false);
+  const [hasToken, setHasToken] = useState(false);
   const [selectedYear, setSelectedYear] = useState(() => {
     const now = new Date();
-    // If it's before March, default to previous year
     return now.getMonth() < 2 ? now.getFullYear() - 1 : now.getFullYear();
   });
 
-  const loadData = async (accessToken?: string, year?: number) => {
+  useEffect(() => {
+    setHasToken(!!localStorage.getItem('github_token'));
+  }, []);
+
+  const loadData = async (accessToken: string, year?: number) => {
     try {
       setError(null);
       setIsLoading(true);
       console.log("Starting data load...");
 
-      const token = accessToken || (session as any)?.accessToken;
-      
-      if (!token) {
-        setError("No access token found. Please sign in with GitHub.");
-        setIsLoading(false);
-        return;
-      }
-
       const targetYear = year || selectedYear;
       console.log(`Fetching GitHub data for ${targetYear} with token...`);
-      const githubData = await fetchGitHubData(token, targetYear);
+      const githubData = await fetchGitHubData(accessToken, targetYear);
       setData(githubData);
       setIsLoading(false);
+      setShowWrapped(true);
       console.log("Data loaded successfully!");
     } catch (err) {
       console.error("Error loading data:", err);
-      setError(`Failed to load GitHub data: ${err instanceof Error ? err.message : 'Unknown error'}. Please try signing in again.`);
+      setError(`Failed to load GitHub data: ${err instanceof Error ? err.message : 'Unknown error'}. Please check your token and try again.`);
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    console.log("Home: Session status =", status, "Session =", session);
-    
-    // Only process session when it's loaded
-    if (status === "loading") {
-      // Session is still loading, just wait
-      return;
-    }
-    
-    if (!session) {
-      // No session, show landing page
-      setData(null);
-      setShowWrapped(false);
-      return;
-    }
-    
-    // Session exists, but we don't load data until "Enter" is clicked
-    // or if we are already showing wrapped
-    if (showWrapped) {
-      const token = (session as any)?.accessToken;
-      if (token) {
-        loadData(token, selectedYear);
-      }
-    }
-  }, [status, selectedYear, showWrapped]);
-
-  const handleEnter = () => {
-    setShowWrapped(true);
+  const handleTokenSubmit = (token: string) => {
+    localStorage.setItem('github_token', token);
+    setHasToken(true);
+    loadData(token, selectedYear);
   };
 
   const handleRefresh = async () => {
-    if (session) {
+    const token = localStorage.getItem('github_token');
+    if (token) {
       setIsRefreshing(true);
-      const token = (session as any)?.accessToken;
-      if (token) {
-        await loadData(token, selectedYear);
-      } else {
-        setError("No access token. Please sign in again.");
-        setIsRefreshing(false);
-      }
+      await loadData(token, selectedYear);
+      setIsRefreshing(false);
+    } else {
+      setError("No GitHub token found. Please enter your token again.");
     }
   };
 
@@ -98,11 +67,11 @@ export default function Home() {
                 `⭐ ${data.totalStarsEarned.toLocaleString()} stars earned\n` +
                 `🔥 ${data.stats.longestStreak || 0} day longest streak\n\n` +
                 `#GitHubWrapped`;
-    
+
     const url = window.location.origin;
-    
+
     let shareUrl = "";
-    
+
     switch (platform) {
       case "twitter":
         shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
@@ -113,7 +82,7 @@ export default function Home() {
       default:
         return;
     }
-    
+
     window.open(shareUrl, "_blank", "width=600,height=400");
   };
 
@@ -122,19 +91,17 @@ export default function Home() {
     alert("Download feature coming soon! Use browser screenshot to save.");
   };
 
-  // Show landing page if not authenticated or not entered
-  if (!session || !showWrapped) {
+  if (!showWrapped) {
     return (
-      <LandingPage 
-        selectedYear={selectedYear} 
+      <LandingPage
+        selectedYear={selectedYear}
         onYearChange={setSelectedYear}
-        onEnter={handleEnter}
-        isLoggedIn={!!session}
+        onTokenSubmit={handleTokenSubmit}
+        isLoggedIn={hasToken}
       />
     );
   }
 
-  // Show loading if loading data
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -146,7 +113,6 @@ export default function Home() {
     );
   }
 
-  // Show error page
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8">
@@ -154,17 +120,19 @@ export default function Home() {
           <h1 className="text-3xl font-bold text-red-500 mb-4">Error</h1>
           <p className="text-gray-400 mb-8">{error}</p>
           <button
-            onClick={() => signOut()}
+            onClick={() => {
+              setShowWrapped(false);
+              setError(null);
+            }}
             className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition-colors"
           >
-            Sign In with GitHub
+            Try Again
           </button>
         </div>
       </div>
     );
   }
 
-  // Show wrapped slide show when data is loaded
   if (data) {
     return (
       <WrappedSlideShow
@@ -172,7 +140,7 @@ export default function Home() {
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
         onShare={handleShare}
-        onDownload={() => {}} // No longer used, handled internally
+        onDownload={() => {}}
         selectedYear={selectedYear}
         onYearChange={setSelectedYear}
       />

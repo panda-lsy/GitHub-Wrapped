@@ -13,21 +13,34 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocale] = useState<Locale>("en");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // Try to get from local storage or browser preference
-    const saved = localStorage.getItem("locale") as Locale;
-    if (saved && (saved === "en" || saved === "zh")) {
-      setLocale(saved);
-    } else {
-      const browserLang = navigator.language.startsWith("zh") ? "zh" : "en";
-      setLocale(browserLang);
+    setIsMounted(true);
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("locale") as Locale;
+        if (saved && (saved === "en" || saved === "zh")) {
+          setLocale(saved);
+        } else {
+          const browserLang = navigator.language.startsWith("zh") ? "zh" : "en";
+          setLocale(browserLang);
+        }
+      } catch (error) {
+        console.warn("Failed to read locale from localStorage:", error);
+      }
     }
   }, []);
 
   const handleSetLocale = (newLocale: Locale) => {
     setLocale(newLocale);
-    localStorage.setItem("locale", newLocale);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("locale", newLocale);
+      } catch (error) {
+        console.warn("Failed to write locale to localStorage:", error);
+      }
+    }
   };
 
   return (

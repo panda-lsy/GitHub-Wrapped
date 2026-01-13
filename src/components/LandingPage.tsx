@@ -1,22 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import LoginButton from "@/components/LoginButton";
 import { Github } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { useRouter } from "next/navigation";
+import TokenInput from "@/components/TokenInput";
 
 interface Props {
   selectedYear: number;
   onYearChange: (year: number) => void;
-  onEnter?: () => void;
+  onTokenSubmit?: (token: string) => void;
   isLoggedIn?: boolean;
 }
 
-export default function LandingPage({ selectedYear, onYearChange, onEnter, isLoggedIn }: Props) {
+export default function LandingPage({ selectedYear, onYearChange, onTokenSubmit, isLoggedIn }: Props) {
   const { t } = useLanguage();
-  const router = useRouter();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
@@ -27,7 +25,7 @@ export default function LandingPage({ selectedYear, onYearChange, onEnter, isLog
       <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-purple-600/30 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
       <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-pink-500/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2" />
-      
+
       {/* Floating Elements */}
       <div className="absolute top-4 right-4 z-20 flex items-center gap-4">
         <div className="flex items-center gap-2 bg-gray-800/40 backdrop-blur-md border border-gray-700/50 rounded-xl px-3 py-1.5">
@@ -62,7 +60,7 @@ export default function LandingPage({ selectedYear, onYearChange, onEnter, isLog
             </div>
           </div>
         </motion.div>
-        
+
         {/* Animated Title */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -72,7 +70,7 @@ export default function LandingPage({ selectedYear, onYearChange, onEnter, isLog
         >
           {t.home.title}
         </motion.h1>
-        
+
         {/* Animated Subtitle */}
         <motion.p
           initial={{ opacity: 0 }}
@@ -83,7 +81,7 @@ export default function LandingPage({ selectedYear, onYearChange, onEnter, isLog
           {t.home.subtitle}
         </motion.p>
 
-        {/* Animated Login/Enter Button */}
+        {/* Animated Token Input / Enter Button */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -91,13 +89,18 @@ export default function LandingPage({ selectedYear, onYearChange, onEnter, isLog
         >
           {isLoggedIn ? (
             <button
-              onClick={onEnter}
+              onClick={() => {
+                const token = localStorage.getItem('github_token');
+                if (token && onTokenSubmit) {
+                  onTokenSubmit(token);
+                }
+              }}
               className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-xl hover:scale-105 transition-transform shadow-xl shadow-purple-500/20"
             >
               {t.home.enter}
             </button>
           ) : (
-            <LoginButton />
+            <TokenInput onTokenSubmit={onTokenSubmit || (() => {})} />
           )}
         </motion.div>
 

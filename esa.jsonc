@@ -5,15 +5,9 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "runtime": "nodejs20",
-  "outputMode": "serverless",
+  "outputMode": "static",
   "assets": {
-    "directory": ".next/standalone",
+    "directory": "./out",
     "notFoundStrategy": "singlePageApplication"
-  },
-  "env": {
-    "GITHUB_ID": "@GITHUB_ID",
-    "GITHUB_SECRET": "@GITHUB_SECRET",
-    "NEXTAUTH_SECRET": "@NEXTAUTH_SECRET",
-    "NEXTAUTH_URL": "@NEXTAUTH_URL"
   }
 }
